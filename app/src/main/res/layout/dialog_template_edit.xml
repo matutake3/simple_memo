@@ -32,7 +32,7 @@
                 style="@style/SimpleMemo.MaterialRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/settings_default_memo_type_memo"
+                android:text="@string/memo_type_text"
                 android:textColor="?android:attr/textColorPrimary"
                 android:checked="true" />
 
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="@string/settings_default_memo_type_checklist"
+                android:text="@string/memo_type_checklist"
                 android:textColor="?android:attr/textColorPrimary" />
         </RadioGroup>
 

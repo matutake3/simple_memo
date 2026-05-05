@@ -32,13 +32,6 @@ class AppSettings private constructor(context: Context) {
         get() = prefs.getBoolean(KEY_WIDGET_NOTIF, false)
         set(value) { prefs.edit().putBoolean(KEY_WIDGET_NOTIF, value).apply() }
 
-    /** "TEXT" or "CHECKLIST". */
-    var defaultMemoType: MemoType
-        get() = runCatching {
-            MemoType.valueOf(prefs.getString(KEY_DEFAULT_TYPE, MemoType.TEXT.name) ?: MemoType.TEXT.name)
-        }.getOrDefault(MemoType.TEXT)
-        set(value) { prefs.edit().putString(KEY_DEFAULT_TYPE, value.name).apply() }
-
     var privacyLockEnabled: Boolean
         get() = prefs.getBoolean(KEY_PRIVACY_LOCK, false)
         set(value) { prefs.edit().putBoolean(KEY_PRIVACY_LOCK, value).apply() }
@@ -88,7 +81,6 @@ class AppSettings private constructor(context: Context) {
         private const val NAME = "app_settings"
         private const val KEY_LIST_SORT_MODE = "list_sort_mode"
         private const val KEY_WIDGET_NOTIF = "widget_notification_enabled"
-        private const val KEY_DEFAULT_TYPE = "default_memo_type"
         private const val KEY_PRIVACY_LOCK = "privacy_lock_enabled"
         private const val KEY_ONBOARDING_DONE = "onboarding_done"
         private const val KEY_PRESETS_SEEDED = "presets_seeded"

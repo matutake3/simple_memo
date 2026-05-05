@@ -28,27 +28,21 @@ import kotlinx.coroutines.launch
 /**
  * ロック画面 / 通知シェードに常駐するチェックリスト通知の管理。
  *
- * 仕様 (SPEC §15.2 + 後付け):
- *  - 対象: 「ウィジェットを配置済みのチェックリスト」だけ。配置されてないリストは通知しない。
- *  - 1 リスト = 1 通知。常駐 (ongoing)、低重要度 (音 / バイブなし)。
- *  - ロック画面では VISIBILITY_PUBLIC で内容そのまま表示。
- *  - 各項目行タップ → ChecklistToggleReceiver でチェック反転 → 通知再 post で即時反映。
- *  - タイトル / 通知本体タップ → EditChecklistActivity で開く。
+ * 仕様:
+ *  - 対象: 「ウィジェットを配置済みのチェックリスト」だけ。
+ *  - 1 リスト = 1 通知。常駐 (ongoing)、setSilent + チャンネル無音で alert を抑制。
+ *  - collapsed: contentText に未完了項目を「、」連結で表示 (1 行)。
+ *  - expanded: 8 スロットの custom RemoteViews。各行タップでチェック反転。
+ *  - タイトル / 通知本体タップ → EditChecklistActivity。
  *  - 設定 OFF または項目 0 件 / メモ削除 / ウィジェット解除 で通知を消す。
- *
- * 通知 ID: NOTIF_ID_BASE + memoId.toInt()。
  */
 object ChecklistNotificationsManager {
 
     private const val NOTIF_ID_BASE = 1_000_000
-    /** notify(int, Notification) の int に収まるように memoId を間引く。 */
     private fun notifId(memoId: Long): Int = NOTIF_ID_BASE + (memoId and 0xFFFFFF).toInt()
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    // ---- public API ---------------------------------------------------------
-
-    /** 設定 ON 時に呼ぶ: ウィジェット配置済みリスト全部の通知を post。 */
     fun postAll(context: Context) {
         if (!AppSettings.get(context).widgetNotificationEnabled) return
         val memoIds = checklistMemoIdsWithWidget(context)
@@ -59,10 +53,8 @@ object ChecklistNotificationsManager {
         }
     }
 
-    /** 設定 OFF 時に呼ぶ: 全通知を消す。 */
     fun cancelAll(context: Context) {
         val nm = NotificationManagerCompat.from(context)
-        // 既知の memoId 全部を cancel (取りこぼしを防ぐためゴミ箱と active 両方を見る)。
         scope.launch {
             val repo = MemoRepository.get(context)
             val all = repo.getAllActive()
@@ -70,7 +62,6 @@ object ChecklistNotificationsManager {
         }
     }
 
-    /** メモ内容変更時に呼ぶ: 該当 memo が対象なら通知を再 post、対象外なら何もしない。 */
     fun notifyMemoChanged(context: Context, memoId: Long) {
         if (!AppSettings.get(context).widgetNotificationEnabled) return
         if (memoId !in checklistMemoIdsWithWidget(context)) return
@@ -79,12 +70,9 @@ object ChecklistNotificationsManager {
         }
     }
 
-    /** メモ削除時に呼ぶ: 通知を消す。 */
     fun notifyMemoDeleted(context: Context, memoId: Long) {
         NotificationManagerCompat.from(context).cancel(notifId(memoId))
     }
-
-    // ---- internals ----------------------------------------------------------
 
     private fun checklistMemoIdsWithWidget(context: Context): Set<Long> {
         return WidgetSettings.get(context).allChecklistMappings().values.toSet()
@@ -99,7 +87,6 @@ object ChecklistNotificationsManager {
         }
         val items = repo.getChecklistItems(memoId)
         if (items.isEmpty()) {
-            // 項目 0 件 → 通知を消す (空のものを出す意味がない)
             notifyMemoDeleted(context, memoId)
             return
         }
@@ -107,7 +94,7 @@ object ChecklistNotificationsManager {
         try {
             NotificationManagerCompat.from(context).notify(notifId(memoId), notification)
         } catch (_: SecurityException) {
-            // POST_NOTIFICATIONS 未許可 (Android 13+)。設定切替時に権限要求するので通常は来ない。
+            // POST_NOTIFICATIONS 未許可 (Android 13+)
         }
     }
 
@@ -118,9 +105,15 @@ object ChecklistNotificationsManager {
     ): Notification {
         val sorted = items.sortedWith(compareBy({ it.checked }, { it.sortOrder }))
         val totalCount = sorted.size
-        val checkedCount = sorted.count { it.checked }
         val title = memo.title?.takeIf { it.isNotBlank() } ?: "(無題のリスト)"
-        val summary = "$checkedCount / $totalCount 完了"
+
+        // collapsed (1 行) 用: 未完了の項目名を「、」連結。
+        val unchecked = sorted.filter { !it.checked }
+        val collapsedText = if (unchecked.isEmpty()) {
+            "${totalCount}件すべて完了"
+        } else {
+            unchecked.joinToString("、") { it.text }
+        }
 
         val expanded = buildBigContentView(context, memo.id, title, sorted)
 
@@ -139,16 +132,18 @@ object ChecklistNotificationsManager {
         return NotificationCompat.Builder(context, App.CHANNEL_CHECKLIST)
             .setSmallIcon(R.drawable.ic_check_square)
             .setContentTitle(title)
-            .setContentText(summary)
+            .setContentText(collapsedText)
             .setContentIntent(openPi)
             .setCustomBigContentView(expanded)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setOngoing(true)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setOnlyAlertOnce(true)
+            .setSilent(true)
             .build()
     }
 
+    /** expanded view (BigContentView) 用の RemoteViews。各行タップで toggle。 */
     private fun buildBigContentView(
         context: Context,
         memoId: Long,
@@ -186,7 +181,7 @@ object ChecklistNotificationsManager {
                     action = ChecklistToggleReceiver.ACTION_TOGGLE
                     putExtra(ChecklistToggleReceiver.EXTRA_MEMO_ID, memoId)
                     putExtra(ChecklistToggleReceiver.EXTRA_ITEM_ID, item.id)
-                    // 同 receiver で widget の fillIn 用 PI と被らないよう URI で隔離
+                    // widget の fillIn 用 PI と被らないよう URI で隔離
                     data = Uri.parse("memo-notif://$memoId/${item.id}")
                 }
                 val requestCode = ((memoId and 0xFFFF) * 1000 + (item.id and 0x3FF)).toInt()

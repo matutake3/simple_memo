@@ -140,9 +140,9 @@
     <!-- ★順 / 並び替えリセット系の旧 string は廃止 (メイン画面の ⇅ 並び替えに統合) -->
     <string name="settings_widget_notification">ウィジェット通知（チェックリスト）</string>
     <string name="settings_widget_notification_desc">ウィジェットのチェックリストをロック画面通知としても表示</string>
-    <string name="settings_default_memo_type">デフォルトのメモ種別</string>
-    <string name="settings_default_memo_type_memo">メモ</string>
-    <string name="settings_default_memo_type_checklist">リスト</string>
+    <!-- メモ種別ラベル (テンプレ編集ダイアログ等で使用) -->
+    <string name="memo_type_text">メモ</string>
+    <string name="memo_type_checklist">リスト</string>
     <string name="settings_template_manager">テンプレート管理</string>
     <string name="settings_tag_manager">タグ管理</string>
     <string name="settings_privacy_lock">プライバシーロック</string>

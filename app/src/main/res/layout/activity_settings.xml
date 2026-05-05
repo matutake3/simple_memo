@@ -132,20 +132,6 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <!-- Row: デフォルトのメモ種別 -->
-            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowDefaultType">
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:orientation="vertical">
-                    <TextView style="@style/Text.Body.Large" android:text="@string/settings_default_memo_type"
-                        android:layout_width="match_parent" android:layout_height="wrap_content" />
-                    <TextView android:id="@+id/defaultTypeSummary" style="@style/Text.Caption"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        tools:text="メモ" />
-                </LinearLayout>
-                <ImageView style="@style/SettingsChevron" />
-            </LinearLayout>
-
             <!-- Row: テンプレート管理 -->
             <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowTemplateManager">
                 <TextView style="@style/Text.Body.Large" android:text="@string/settings_template_manager"

@@ -64,6 +64,9 @@ class ChecklistConfigActivity : ThemedActivity() {
         ChecklistWidgetProvider.updateAll(this, mgr, intArrayOf(widgetId))
         // RemoteViewsService の項目もリロードさせる
         mgr.notifyAppWidgetViewDataChanged(widgetId, jp.simplist.memo.R.id.checklistItems)
+        // ウィジェット通知が ON ならこの memo の通知も即時 post (OFF なら内部で no-op)
+        jp.simplist.memo.notification.ChecklistNotificationsManager
+            .notifyMemoChanged(this, memoId)
         val resultValue = Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         setResult(Activity.RESULT_OK, resultValue)
         finish()

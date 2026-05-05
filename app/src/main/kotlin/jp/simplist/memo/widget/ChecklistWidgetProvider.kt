@@ -47,7 +47,21 @@ class ChecklistWidgetProvider : AppWidgetProvider() {
 
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
         val settings = WidgetSettings.get(context)
-        for (id in appWidgetIds) settings.removeWidget(id)
+        // 削除前に対象 widget が指していた memoId を記録 → 削除 → 残った widget に同じ memoId が
+        // 紐付いていなければ通知も消す。
+        val affectedMemoIds = mutableSetOf<Long>()
+        for (id in appWidgetIds) {
+            settings.getChecklistMemoId(id)?.let { affectedMemoIds.add(it) }
+            settings.removeWidget(id)
+        }
+        if (affectedMemoIds.isEmpty()) return
+        val remaining = settings.allChecklistMappings().values.toSet()
+        for (memoId in affectedMemoIds) {
+            if (memoId !in remaining) {
+                jp.simplist.memo.notification.ChecklistNotificationsManager
+                    .notifyMemoDeleted(context, memoId)
+            }
+        }
     }
 
     companion object {

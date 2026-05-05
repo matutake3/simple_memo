@@ -45,10 +45,14 @@ class App : Application() {
     private fun createChecklistChannel() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val nm = getSystemService(NotificationManager::class.java) ?: return
+        // v1 (IMPORTANCE_LOW) は ColorOS / Oppo / Xiaomi 等でロック画面に出ないことがあった。
+        // v2 で IMPORTANCE_DEFAULT に上げ、setSound/Vibration は引き続き無効化して静音を維持。
+        // 既存の v1 チャンネルは削除 (ユーザーが個別調整していても挙動が予期せぬので潔く差替え)。
+        nm.deleteNotificationChannel(CHANNEL_CHECKLIST_V1_LEGACY)
         val channel = NotificationChannel(
             CHANNEL_CHECKLIST,
             getString(R.string.notif_channel_checklist),
-            NotificationManager.IMPORTANCE_LOW,
+            NotificationManager.IMPORTANCE_DEFAULT,
         ).apply {
             description = getString(R.string.notif_channel_checklist_desc)
             setSound(null, null)
@@ -72,7 +76,9 @@ class App : Application() {
     }
 
     companion object {
-        const val CHANNEL_CHECKLIST = "checklist_lockscreen_v1"
+        const val CHANNEL_CHECKLIST = "checklist_lockscreen_v2"
+        /** 旧チャンネル ID。重要度を変更できないため新規 ID で作り直す際の clean-up 用。 */
+        const val CHANNEL_CHECKLIST_V1_LEGACY = "checklist_lockscreen_v1"
         const val CHANNEL_TRIAL_EXPIRED = "trial_expired_v1"
         const val TRASH_RETENTION_DAYS = 7L
     }

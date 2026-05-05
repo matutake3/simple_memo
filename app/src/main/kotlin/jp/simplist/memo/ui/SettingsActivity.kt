@@ -16,7 +16,6 @@ import jp.simplist.memo.R
 import jp.simplist.memo.backup.BackupActivity
 import jp.simplist.memo.billing.BillingManager
 import jp.simplist.memo.data.AppSettings
-import jp.simplist.memo.data.MemoType
 import jp.simplist.memo.data.StyleMode
 import jp.simplist.memo.databinding.ActivitySettingsBinding
 import jp.simplist.memo.notification.ChecklistNotificationsManager
@@ -115,10 +114,6 @@ class SettingsActivity : ThemedActivity() {
             }
         }
 
-        // デフォルト種別
-        renderDefaultType()
-        binding.rowDefaultType.setOnClickListener { showDefaultTypeDialog() }
-
         binding.rowTemplateManager.setOnClickListener { startActivity(Intent(this, TemplateManagerActivity::class.java)) }
         binding.rowTagManager.setOnClickListener { startActivity(Intent(this, TagManagerActivity::class.java)) }
 
@@ -186,30 +181,6 @@ class SettingsActivity : ThemedActivity() {
         billing?.release()
     }
 
-    private fun renderDefaultType() {
-        binding.defaultTypeSummary.text = getString(
-            if (settings.defaultMemoType == MemoType.TEXT) R.string.settings_default_memo_type_memo
-            else R.string.settings_default_memo_type_checklist,
-        )
-    }
-
-    private fun showDefaultTypeDialog() {
-        val labels = arrayOf(
-            getString(R.string.settings_default_memo_type_memo),
-            getString(R.string.settings_default_memo_type_checklist),
-        )
-        val initial = if (settings.defaultMemoType == MemoType.TEXT) 0 else 1
-        var picked = initial
-        AlertDialog.Builder(this)
-            .setTitle(R.string.settings_default_memo_type)
-            .setSingleChoiceItems(labels, initial) { _, w -> picked = w }
-            .setPositiveButton(R.string.action_ok) { _, _ ->
-                settings.defaultMemoType = if (picked == 0) MemoType.TEXT else MemoType.CHECKLIST
-                renderDefaultType()
-            }
-            .setNegativeButton(R.string.action_cancel, null)
-            .show()
-    }
 
     private fun renderPurchaseCard() {
         val tm = TrialManager.get()
