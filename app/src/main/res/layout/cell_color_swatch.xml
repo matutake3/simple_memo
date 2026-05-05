@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  GridLayout の中で、layout_columnWeight=1 で画面幅に合わせて均等に伸縮するセル。
+  width=0dp + columnWeight=1 が GridLayout の重み配分の標準パターン (API 21+)。
+  swatch (40dp) はセル中央に配置されるので、セル幅が広がっても swatch サイズは固定。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="0dp"
+    android:layout_height="48dp"
+    android:layout_columnWeight="1"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+    <View
+        android:id="@+id/swatch"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:id="@+id/selectedCheck"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_check"
+        app:tint="@color/ink"
+        android:visibility="gone"
+        android:contentDescription="@null" />
+</FrameLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/state_pressed_overlay">
+    <item>
+        <shape android:shape="rectangle">
+            <!-- accent_sage を ~50% 不透明化 (alpha=80/255) で共有ボタンと視認性を揃える -->
+            <solid android:color="#809DAD8E" />
+            <corners android:radius="100dp" />
+        </shape>
+    </item>
+</ripple>

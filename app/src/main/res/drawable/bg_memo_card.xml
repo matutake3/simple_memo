@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  メモカードの基本背景。背景色はコード側 (MemoListAdapter) で
+  ColorStateList による tint で動的に渡す。ここでは形状のみ定義。
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#FFFFFFFF" />
+    <corners android:radius="@dimen/card_corner" />
+</shape>

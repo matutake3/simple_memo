@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <EditText
+            android:id="@+id/nameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/template_name_hint"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/ink"
+            android:textColorHint="@color/graphite"
+            android:singleLine="true" />
+
+        <RadioGroup
+            android:id="@+id/typeGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/typeText"
+                style="@style/SimpleMemo.MaterialRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_default_memo_type_memo"
+                android:textColor="@color/ink"
+                android:checked="true" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/typeChecklist"
+                style="@style/SimpleMemo.MaterialRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/settings_default_memo_type_checklist"
+                android:textColor="@color/ink" />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/titleInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/hint_title"
+            android:textSize="14sp"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/ink"
+            android:textColorHint="@color/graphite"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/bodyInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="本文 / 項目（チェックリストは改行区切り）"
+            android:textSize="14sp"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/ink"
+            android:textColorHint="@color/graphite"
+            android:gravity="top|start"
+            android:minLines="4"
+            android:inputType="textMultiLine|textCapSentences" />
+    </LinearLayout>
+</ScrollView>

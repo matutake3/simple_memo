@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ============================================================
+         Notifications (Android 13+) — チェックリストのロック画面通知
+         ============================================================ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- ============================================================
+         Biometric / device credential (プライバシーロック)
+         ============================================================ -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
+    <!-- ============================================================
+         Boot completed (ウィジェットの再表示 / 通知の復帰)
+         ============================================================ -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- ============================================================
+         Billing
+         ============================================================ -->
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <!-- ============================================================
+         Backup ファイル選択 (SAF) は Manifest 宣言不要
+         ============================================================ -->
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SimpleMemo"
+        tools:targetApi="34">
+
+        <!-- ============================================================
+             Activities
+             ============================================================ -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.EditMemoActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.EditChecklistActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".search.SearchActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.MainActivity" />
+
+        <activity
+            android:name=".ui.TagManagerActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.SettingsActivity" />
+
+        <activity
+            android:name=".ui.TemplateManagerActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.SettingsActivity" />
+
+        <activity
+            android:name=".ui.TrashActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.SettingsActivity" />
+
+        <activity
+            android:name=".backup.BackupActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.SettingsActivity" />
+
+        <activity
+            android:name=".ui.OnboardingActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.UsageGuideActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.SettingsActivity" />
+
+        <activity
+            android:name=".ui.FaqActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.SettingsActivity" />
+
+        <!-- ============================================================
+             Downloadable Fonts (Inter family)
+             ============================================================ -->
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+    </application>
+
+</manifest>

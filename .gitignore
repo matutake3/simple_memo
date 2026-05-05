@@ -1,0 +1,24 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+/app/build
+/app/release
+*.keystore
+*.jks
+
+# Editor local history (Cursor/VS Code)
+.history/
+
+# APK/AAB artifacts (if present outside ignored build dirs)
+*.apk
+*.aab
+
+# Local review / scratch notes (large, machine-specific)
+review.txt

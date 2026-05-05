@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/paper">
+
+    <!-- Toolbar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/toolbar_padding_h"
+        android:paddingEnd="@dimen/toolbar_padding_h">
+
+        <ImageButton android:id="@+id/backButton" android:layout_width="40dp" android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_back" android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/ink_secondary" android:contentDescription="@string/action_back" />
+
+        <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+
+        <ImageButton android:id="@+id/colorButton" android:layout_width="40dp" android:layout_height="40dp"
+            android:src="@drawable/ic_palette" android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_palette" android:contentDescription="@string/action_color" />
+
+        <ImageButton android:id="@+id/priorityButton" android:layout_width="40dp" android:layout_height="40dp"
+            android:src="@drawable/ic_star_outline" android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_priority" android:contentDescription="@string/action_priority" />
+
+        <ImageButton android:id="@+id/tagButton" android:layout_width="40dp" android:layout_height="40dp"
+            android:src="@drawable/ic_label_outline" android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_tag" android:contentDescription="@string/action_tag" />
+
+        <ImageButton android:id="@+id/deleteButton" android:layout_width="40dp" android:layout_height="40dp"
+            android:src="@drawable/ic_delete" android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_delete" android:contentDescription="@string/action_delete" />
+    </LinearLayout>
+
+    <View style="@style/HairLine" android:background="@color/hair_subtle" />
+
+    <!-- タイトルブロック: 画面端まで広がる (内部 padding でテキスト位置を確保) -->
+    <FrameLayout
+        android:id="@+id/titleBlock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/screen_padding_horizontal"
+        android:paddingEnd="@dimen/screen_padding_horizontal"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <EditText
+            android:id="@+id/titleEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_title"
+            android:textSize="18sp"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/ink"
+            android:textColorHint="@color/graphite"
+            android:background="@null"
+            android:singleLine="true"
+            android:inputType="text"
+            android:imeOptions="actionNext" />
+    </FrameLayout>
+
+    <View style="@style/HairLine" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/itemList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp" />
+
+        <!-- リストが空のときだけ表示するタップターゲット。
+             タップで最初の項目を作成 + フォーカス。 -->
+        <FrameLayout
+            android:id="@+id/emptyTapZone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            android:background="?attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="タップして項目を追加"
+                android:textColor="@color/graphite_dim"
+                android:textSize="14sp"
+                android:fontFamily="@font/inter_regular" />
+        </FrameLayout>
+    </FrameLayout>
+
+    <View style="@style/HairLine" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/screen_padding_horizontal"
+        android:paddingEnd="@dimen/screen_padding_horizontal"
+        android:paddingTop="12dp"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/deleteCheckedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="@string/delete_completed"
+            android:textColor="@color/accent_sage_dark"
+            android:fontFamily="@font/inter_medium"
+            android:textSize="14sp"
+            android:background="?attr/selectableItemBackground" />
+
+        <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="@drawable/bg_pill_share"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/action_share">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_share"
+                app:tint="@color/accent_blue_dark"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/action_share"
+                android:textColor="@color/accent_blue_dark"
+                android:textSize="14sp"
+                android:fontFamily="@font/inter_medium" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

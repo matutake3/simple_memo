@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="HairLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/hair</item>
+    </style>
+
+    <!--
+      Material component overrides — Simplist 行の 56dp に縦中央寄せで載せたとき
+      余白で崩れないよう minHeight=0dp を強制する (シリーズ規約)。
+    -->
+    <style name="SimpleMemo.MaterialRadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="android:minHeight">0dp</item>
+    </style>
+    <style name="SimpleMemo.MaterialCheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="android:minHeight">0dp</item>
+        <item name="buttonTint">@color/accent_sage</item>
+    </style>
+    <style name="SimpleMemo.MaterialSwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="android:minHeight">0dp</item>
+    </style>
+
+    <!--
+      Outlined TextInputLayout — 角丸 12dp (本アプリは丸めあり).
+    -->
+    <style name="SimpleMemo.OutlinedBox" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">@dimen/text_field_corner</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/text_field_corner</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/text_field_corner</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/text_field_corner</item>
+        <item name="boxStrokeColor">@color/accent_sage</item>
+        <item name="hintTextColor">@color/ink_secondary</item>
+        <item name="android:textColorHint">@color/graphite</item>
+    </style>
+
+    <!--
+      Text スタイル (DESIGN_SPEC §4.2)
+    -->
+    <style name="Text.H1" parent="">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/ink</item>
+    </style>
+    <style name="Text.H2" parent="">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/ink</item>
+    </style>
+    <style name="Text.Title.Card" parent="">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/ink</item>
+    </style>
+    <style name="Text.Body.Large" parent="">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/ink</item>
+    </style>
+    <style name="Text.Body" parent="">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/ink</item>
+        <item name="android:lineSpacingMultiplier">1.45</item>
+    </style>
+    <style name="Text.Body.Sub" parent="">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/ink_secondary</item>
+        <item name="android:lineSpacingMultiplier">1.45</item>
+    </style>
+    <style name="Text.Caption" parent="">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/graphite</item>
+    </style>
+    <style name="Text.Caption.Dim" parent="">
+        <item name="android:fontFamily">@font/inter_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/graphite_dim</item>
+    </style>
+    <style name="Text.Section" parent="">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:textColor">@color/ink_secondary</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+    <style name="Text.Button" parent="">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+    <style name="Text.Tag" parent="">
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="Text.Placeholder" parent="">
+        <item name="android:fontFamily">@font/inter_light</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/graphite</item>
+    </style>
+
+    <!--
+      Settings 行 / Section ヘッダ用の pure-visual スタイル (layout_* は含めない、
+      シリーズ規約で「ドット継承スタイル NG」とされる Layout 流用問題を避けるため)。
+      layout_width / height / weight 等は呼び出し側でインライン指定する。
+    -->
+    <style name="SettingsRowInline" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/row_min_height</item>
+        <item name="android:paddingStart">@dimen/screen_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/screen_padding_horizontal</item>
+        <item name="android:paddingTop">@dimen/row_padding_vertical</item>
+        <item name="android:paddingBottom">@dimen/row_padding_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="SettingsChevron" parent="">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:src">@drawable/ic_chevron_right</item>
+        <item name="android:tint">@color/graphite</item>
+        <item name="android:contentDescription">@null</item>
+        <item name="android:layout_marginStart">12dp</item>
+    </style>
+
+    <style name="SectionHeaderInline" parent="Text.Section">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/screen_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/screen_padding_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/section_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/section_margin_bottom</item>
+    </style>
+</resources>

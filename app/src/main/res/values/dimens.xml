@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <dimen name="row_min_height">56dp</dimen>
+    <dimen name="row_padding_vertical">16dp</dimen>
+    <dimen name="screen_padding_horizontal">20dp</dimen>
+
+    <!-- Corner radii (DESIGN_SPEC §5.3) -->
+    <dimen name="card_corner">16dp</dimen>
+    <dimen name="dialog_corner">16dp</dimen>
+    <dimen name="bottom_sheet_corner">24dp</dimen>
+    <dimen name="button_corner">12dp</dimen>
+    <dimen name="text_field_corner">12dp</dimen>
+    <dimen name="snackbar_corner">12dp</dimen>
+
+    <!-- MemoCard -->
+    <dimen name="card_padding_h">20dp</dimen>
+    <dimen name="card_padding_v">16dp</dimen>
+    <dimen name="card_gap">8dp</dimen>
+
+    <!-- Section -->
+    <dimen name="section_margin_top">28dp</dimen>
+    <dimen name="section_margin_bottom">8dp</dimen>
+
+    <!-- FAB -->
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="fab_margin">20dp</dimen>
+    <dimen name="fab_gap">12dp</dimen>
+
+    <!-- TagChip -->
+    <dimen name="tag_chip_height">32dp</dimen>
+    <dimen name="tag_chip_padding_h">14dp</dimen>
+
+    <!-- Toolbar -->
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="toolbar_padding_h">16dp</dimen>
+
+    <!-- Icon sizes -->
+    <dimen name="icon_lg">24dp</dimen>
+    <dimen name="icon_md">20dp</dimen>
+    <dimen name="icon_sm">18dp</dimen>
+    <dimen name="icon_xs">14dp</dimen>
+</resources>

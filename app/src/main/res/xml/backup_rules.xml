@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Auto Backup config for Android 6.0 (API 23) – 11 (API 30).
+  Includes memo DB and trial / pro state so re-installs preserve user data.
+-->
+<full-backup-content>
+    <include domain="database" path="memos.db" />
+    <include domain="database" path="memos.db-shm" />
+    <include domain="database" path="memos.db-wal" />
+    <include domain="sharedpref" path="trial_state.xml" />
+    <include domain="sharedpref" path="purchase_state.xml" />
+    <include domain="sharedpref" path="onboarding.xml" />
+    <include domain="sharedpref" path="app_settings.xml" />
+</full-backup-content>

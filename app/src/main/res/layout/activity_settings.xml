@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/paper">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/toolbar_padding_h"
+        android:paddingEnd="@dimen/toolbar_padding_h">
+        <ImageButton android:id="@+id/backButton" android:layout_width="40dp" android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_back" android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/ink" android:contentDescription="@string/action_back" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginStart="8dp" android:text="@string/title_settings" style="@style/Text.H1" />
+    </LinearLayout>
+
+    <View style="@style/HairLine" android:background="@color/hair_subtle" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="32dp">
+
+            <!-- Row: 使い方ガイド -->
+            <LinearLayout android:id="@+id/rowUsageGuide" style="@style/SettingsRowInline">
+                <TextView android:id="@+id/rowUsageGuideTitle" style="@style/Text.Body.Large"
+                    android:text="@string/settings_usage_guide" android:layout_weight="1"
+                    android:layout_width="0dp" android:layout_height="wrap_content" />
+                <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+
+            <!-- Row: よくある質問 -->
+            <LinearLayout android:id="@+id/rowFaq" style="@style/SettingsRowInline">
+                <TextView style="@style/Text.Body.Large" android:text="@string/settings_faq"
+                    android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+                <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+
+            <!-- Section: メモの設定 -->
+            <TextView style="@style/SectionHeaderInline" android:text="@string/settings_section_memo" />
+
+            <!-- 旧「★順を有効にする」スイッチは廃止 (メイン画面の ⇅ 並び替え機能に統合)。 -->
+
+            <!-- Row: ウィジェット通知 -->
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowWidgetNotif">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical">
+                    <TextView style="@style/Text.Body.Large" android:text="@string/settings_widget_notification"
+                        android:layout_width="match_parent" android:layout_height="wrap_content" />
+                    <TextView style="@style/Text.Caption" android:text="@string/settings_widget_notification_desc"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchWidgetNotif"
+                    style="@style/SimpleMemo.MaterialSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <!-- Row: デフォルトのメモ種別 -->
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowDefaultType">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical">
+                    <TextView style="@style/Text.Body.Large" android:text="@string/settings_default_memo_type"
+                        android:layout_width="match_parent" android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/defaultTypeSummary" style="@style/Text.Caption"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        tools:text="メモ" />
+                </LinearLayout>
+                <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+
+            <!-- Row: テンプレート管理 -->
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowTemplateManager">
+                <TextView style="@style/Text.Body.Large" android:text="@string/settings_template_manager"
+                    android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+                <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+
+            <!-- Row: タグ管理 -->
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowTagManager">
+                <TextView style="@style/Text.Body.Large" android:text="@string/settings_tag_manager"
+                    android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+                <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+
+            <!-- Row: プライバシーロック (Switch) -->
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowPrivacyLock">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical">
+                    <TextView style="@style/Text.Body.Large" android:text="@string/settings_privacy_lock"
+                        android:layout_width="match_parent" android:layout_height="wrap_content" />
+                    <TextView style="@style/Text.Caption" android:text="@string/settings_privacy_lock_desc"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchPrivacyLock"
+                    style="@style/SimpleMemo.MaterialSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <!-- Section: データ -->
+            <TextView style="@style/SectionHeaderInline" android:text="@string/settings_section_data" />
+
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowBackup">
+                <TextView style="@style/Text.Body.Large" android:text="@string/settings_backup"
+                    android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+                <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowTrash">
+                <TextView style="@style/Text.Body.Large" android:text="@string/settings_trash"
+                    android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+                <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+
+            <!-- Section: アプリ情報 -->
+            <TextView style="@style/SectionHeaderInline" android:text="@string/settings_section_app_info" />
+
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowContact">
+                <TextView style="@style/Text.Body.Large" android:text="@string/settings_contact"
+                    android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+                <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowRate">
+                <TextView style="@style/Text.Body.Large" android:text="@string/settings_rate"
+                    android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+                <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowShare">
+                <TextView style="@style/Text.Body.Large" android:text="@string/settings_share"
+                    android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+                <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+
+            <!-- Section: プライバシーについて -->
+            <TextView style="@style/SectionHeaderInline" android:text="@string/settings_section_privacy" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/screen_padding_horizontal"
+                android:paddingEnd="@dimen/screen_padding_horizontal"
+                android:paddingTop="4dp"
+                android:paddingBottom="12dp"
+                android:text="@string/settings_privacy_body"
+                style="@style/Text.Body.Sub" />
+
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowPrivacyPolicy">
+                <TextView style="@style/Text.Body.Large" android:text="@string/settings_privacy_policy"
+                    android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+                <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowTokushoho">
+                <TextView style="@style/Text.Body.Large" android:text="@string/settings_tokushoho"
+                    android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+                <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+
+            <!-- Section: ライセンス -->
+            <TextView style="@style/SectionHeaderInline" android:text="@string/settings_section_license" />
+
+            <!-- 購入カード (動的に状態切替) -->
+            <LinearLayout
+                android:id="@+id/purchaseCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/screen_padding_horizontal"
+                android:layout_marginEnd="@dimen/screen_padding_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:background="@drawable/bg_card_surface">
+
+                <TextView android:id="@+id/purchaseTitle" style="@style/Text.H2"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    tools:text="無料期間中" />
+
+                <TextView android:id="@+id/purchaseSummary" style="@style/Text.Body"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    tools:text="残り 14 日" />
+
+                <TextView android:id="@+id/purchaseButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="@string/trial_purchase_button"
+                    style="@style/Text.Button"
+                    android:textColor="@color/accent_sage_text"
+                    android:background="@drawable/bg_button_primary" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowRestorePurchase">
+                <TextView style="@style/Text.Body.Large" android:text="@string/settings_restore_purchase"
+                    android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
+                <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/versionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                style="@style/Text.Caption.Dim"
+                tools:text="バージョン 0.1.0" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

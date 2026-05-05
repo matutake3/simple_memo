@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/paper">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/ink_secondary"
+            android:contentDescription="@string/action_back" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_search_field"
+            android:paddingStart="14dp"
+            android:paddingEnd="6dp">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_search"
+                app:tint="@color/accent_sage_dark"
+                android:contentDescription="@null" />
+
+            <EditText
+                android:id="@+id/searchEdit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:hint="@string/hint_search"
+                android:textSize="14sp"
+                android:fontFamily="@font/inter_regular"
+                android:textColor="@color/ink"
+                android:textColorHint="@color/graphite"
+                android:background="@null"
+                android:singleLine="true"
+                android:inputType="text"
+                android:imeOptions="actionSearch" />
+
+            <ImageButton
+                android:id="@+id/clearButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_close"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="@color/ink_secondary"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:contentDescription="@string/action_close" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/closeButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_close"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/ink_secondary"
+            android:contentDescription="@string/action_close" />
+    </LinearLayout>
+
+    <View style="@style/HairLine" android:background="@color/hair_subtle" />
+
+    <TextView
+        android:id="@+id/resultsCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_padding_horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="12dp"
+        style="@style/Text.Caption"
+        android:textColor="@color/ink_secondary" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/resultList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp" />
+</LinearLayout>

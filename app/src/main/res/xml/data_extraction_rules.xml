@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 12+ (API 31+) backup / device-transfer config.
+  Mirrors backup_rules.xml.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="database" path="memos.db" />
+        <include domain="database" path="memos.db-shm" />
+        <include domain="database" path="memos.db-wal" />
+        <include domain="sharedpref" path="trial_state.xml" />
+        <include domain="sharedpref" path="purchase_state.xml" />
+        <include domain="sharedpref" path="onboarding.xml" />
+        <include domain="sharedpref" path="app_settings.xml" />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="database" path="memos.db" />
+        <include domain="database" path="memos.db-shm" />
+        <include domain="database" path="memos.db-wal" />
+        <include domain="sharedpref" path="trial_state.xml" />
+        <include domain="sharedpref" path="purchase_state.xml" />
+        <include domain="sharedpref" path="onboarding.xml" />
+        <include domain="sharedpref" path="app_settings.xml" />
+    </device-transfer>
+</data-extraction-rules>

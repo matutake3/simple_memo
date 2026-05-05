@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Simple Memo color palette (DESIGN_SPEC §3 / §12.1).
+  シリーズ既存のモノトーン暗色パレットとは独立。クリーム地 + パステルパレット。
+  values-night/colors.xml は同値の duplicate (本アプリは v1 ライト固定)。
+-->
+<resources>
+
+    <!-- Base (背景・面) -->
+    <color name="paper">#F4EEE3</color>
+    <color name="paper_dim">#EFE8DA</color>
+    <color name="surface">#FBF6EC</color>
+
+    <!-- Text / Line -->
+    <color name="ink">#3D3A36</color>
+    <color name="ink_secondary">#6E6962</color>
+    <color name="graphite">#8A8580</color>
+    <color name="graphite_dim">#B8B2A8</color>
+    <color name="hair">#E2DCD0</color>
+    <color name="hair_subtle">#EBE6DA</color>
+
+    <!-- Accent (sage 主軸) -->
+    <color name="accent_sage">#9DAD8E</color>
+    <color name="accent_sage_dark">#869978</color>
+    <color name="accent_sage_dim">#C3CDB7</color>
+    <color name="accent_sage_text">#FFFFFF</color>
+
+    <!-- Accent (blue 副軸) -->
+    <color name="accent_blue">#A8C5D6</color>
+    <color name="accent_blue_dark">#90B1C4</color>
+
+    <!-- 編集画面ツールバーのマルチカラーアイコン用 -->
+    <color name="icon_palette">#90B1C4</color>
+    <color name="icon_priority">#D4A93C</color>
+    <color name="icon_tag">#869978</color>
+    <color name="icon_delete">#C8896E</color>
+
+    <!-- 18 色パレット (メモ + タグ 共通 ID 空間) -->
+    <color name="color_default">#F4EEE3</color>
+    <color name="color_cream">#F4E5B5</color>
+    <color name="color_apricot">#EFCBA3</color>
+    <color name="color_peach">#F4C9A7</color>
+    <color name="color_coral">#F4B6A8</color>
+    <color name="color_rose">#E8B5C4</color>
+    <color name="color_pink">#F4D0CE</color>
+    <color name="color_mauve">#C8A8C4</color>
+    <color name="color_lavender">#D7C9E0</color>
+    <color name="color_lilac">#C8B8D6</color>
+    <color name="color_dusty_blue">#A8B8CC</color>
+    <color name="color_sky">#BDD8E8</color>
+    <color name="color_aqua">#B8D4D0</color>
+    <color name="color_mint">#C8DCC8</color>
+    <color name="color_sage_swatch">#C2D2B4</color>
+    <color name="color_olive">#C4C29A</color>
+    <color name="color_beige">#E5D9C2</color>
+    <color name="color_greige">#D5CCC0</color>
+    <color name="color_dust_yellow">#E0C788</color>
+
+    <!-- State overlays (黒 alpha、ライト地対応) -->
+    <color name="state_pressed_overlay">#0F000000</color>
+    <color name="state_focused_overlay">#1A000000</color>
+
+    <!-- ripple base -->
+    <color name="ripple_color">#33000000</color>
+</resources>

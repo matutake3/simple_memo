@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">シンプルメモ帳 &amp; ToDo</string>
+    <string name="app_short_name">シンプルメモ</string>
+
+    <!-- Toolbar / generic -->
+    <!-- メイン画面ツールバー用の短縮タイトル (右側のアイコン群で「& ToDo」を表示する余裕がない) -->
+    <string name="title_main">シンプルメモ帳</string>
+    <string name="title_search">検索</string>
+    <string name="title_settings">設定</string>
+    <string name="title_tag_manager">タグ管理</string>
+    <string name="title_template_manager">テンプレート管理</string>
+    <string name="title_trash">ゴミ箱</string>
+    <string name="title_backup">バックアップ・復元</string>
+    <string name="title_onboarding">シンプルメモ帳 &amp; ToDo を始める</string>
+    <string name="title_usage_guide">使い方ガイド</string>
+    <string name="title_faq">よくある質問</string>
+
+    <!-- Common buttons -->
+    <string name="action_back">戻る</string>
+    <string name="action_close">閉じる</string>
+    <string name="action_done">完了</string>
+    <string name="action_cancel">キャンセル</string>
+    <string name="action_ok">OK</string>
+    <string name="action_save">保存</string>
+    <string name="action_delete">削除</string>
+    <string name="action_share">共有</string>
+    <string name="action_protect">保護</string>
+    <string name="action_unprotect">保護を解除</string>
+    <string name="action_color">色を選ぶ</string>
+    <string name="action_priority">優先度</string>
+    <string name="action_tag">タグ</string>
+    <string name="action_search">検索</string>
+    <string name="action_sort">並び替え</string>
+    <string name="action_more">その他</string>
+    <string name="action_menu">メニュー</string>
+    <string name="action_add">追加</string>
+    <string name="action_restore">復元</string>
+    <string name="action_delete_permanently">完全に削除</string>
+
+    <!-- Main -->
+    <string name="filter_all">すべて</string>
+    <string name="filter_untagged">未分類</string>
+    <string name="filter_add">+ 追加</string>
+    <string name="fab_memo">メモ</string>
+    <string name="fab_list">リスト</string>
+    <string name="empty_main_title">メモがありません</string>
+    <string name="empty_main_desc">下の + ボタンから新しいメモを作りましょう</string>
+    <!-- 複数選択 (2026-05) -->
+    <string name="multi_count_format">%1$d 件選択</string>
+    <string name="multi_select_all">すべて選択</string>
+    <string name="multi_duplicate">複製</string>
+    <string name="multi_delete_confirm_format">%1$d 件のメモを削除しますか？\nゴミ箱に移動されます。</string>
+    <string name="multi_delete_skipped_format">%1$d 件削除しました（保護中の %2$d 件はスキップ）</string>
+    <string name="multi_delete_all_protected">選択されたメモはすべて保護中のため削除できません。先に保護を解除してください。</string>
+
+    <!-- バックアップ追加文言 (2026-05) -->
+    <string name="backup_folder_label">バックアップフォルダ</string>
+    <string name="backup_folder_unset">未設定 (タップしてフォルダを選択)</string>
+    <string name="backup_auto_label">自動バックアップ</string>
+    <string name="backup_auto_desc">毎日 1 回 (端末アイドル時)、設定したフォルダに JSON 形式で保存</string>
+    <string name="backup_auto_needs_folder">先にバックアップフォルダを設定してください</string>
+    <string name="backup_last_format">前回のバックアップ: %1$s</string>
+    <string name="backup_last_never">未実行</string>
+
+    <!-- 並び替え (新仕様 2026-05) -->
+    <string name="sort_dialog_title">並び替え</string>
+    <string name="sort_updated">更新日順</string>
+    <string name="sort_created">作成日順</string>
+    <string name="sort_title">名前順</string>
+    <string name="sort_priority">重要度順</string>
+    <string name="action_custom_sort">カスタム並び替え</string>
+
+    <!-- Edit memo / checklist -->
+    <string name="hint_title">タイトル（任意）</string>
+    <string name="hint_body">ここに本文を入力…</string>
+    <string name="hint_checklist_item">項目を追加</string>
+    <string name="add_checklist_item">+ 項目を追加</string>
+    <string name="delete_completed">完了済みを削除</string>
+    <string name="delete_completed_confirm">完了済みの項目をすべて削除します</string>
+    <string name="delete_memo_confirm">このメモを削除しますか？ ゴミ箱に移動されます。</string>
+    <string name="delete_memo_protected_blocked">このメモは保護されています。\n削除するには、編集画面で先に保護を解除してください。</string>
+    <string name="saving">保存中…</string>
+    <string name="memo_saved">保存しました</string>
+
+    <!-- Color picker -->
+    <string name="color_picker_title">カラーを選ぶ</string>
+    <string name="color_none">色なし</string>
+
+    <!-- Priority picker -->
+    <string name="priority_picker_title">優先度を選ぶ</string>
+    <string name="priority_none">なし</string>
+    <string name="priority_1">★</string>
+    <string name="priority_2">★★</string>
+    <string name="priority_3">★★★</string>
+
+    <!-- Tag -->
+    <string name="tag_picker_title">タグを選ぶ</string>
+    <string name="tag_none">タグなし</string>
+    <string name="tag_create_new">+ 新しいタグを作成</string>
+    <string name="tag_name_hint">タグ名</string>
+    <string name="tag_max_reached">タグは最大 10 個までです</string>
+    <string name="preset_tag_work">仕事</string>
+    <string name="preset_tag_private">プライベート</string>
+    <string name="preset_tag_shopping">買い物</string>
+
+    <!-- Template -->
+    <string name="template_picker_title">テンプレートから作成</string>
+    <string name="template_no_template">テンプレートなし（新規）</string>
+    <string name="template_name_hint">テンプレート名</string>
+    <string name="preset_template_todo">やること</string>
+    <string name="preset_template_shopping">買い物リスト</string>
+    <string name="preset_template_workout">運動リスト</string>
+    <string name="preset_template_movies">見たい映画</string>
+    <string name="preset_template_books">読みたい本</string>
+
+    <!-- Search -->
+    <string name="hint_search">検索ワード入力</string>
+    <string name="search_results_count">検索結果：%1$d 件</string>
+    <string name="search_no_results">該当するメモがありません</string>
+
+    <!-- Settings -->
+    <string name="settings_section_memo">メモの設定</string>
+    <string name="settings_section_data">データ</string>
+    <string name="settings_section_app_info">アプリ情報</string>
+    <string name="settings_section_privacy">プライバシーについて</string>
+    <string name="settings_section_license">ライセンス</string>
+
+    <string name="settings_usage_guide">使い方ガイド</string>
+    <string name="settings_faq">よくある質問</string>
+    <!-- ★順 / 並び替えリセット系の旧 string は廃止 (メイン画面の ⇅ 並び替えに統合) -->
+    <string name="settings_widget_notification">ウィジェット通知（チェックリスト）</string>
+    <string name="settings_widget_notification_desc">ウィジェットのチェックリストをロック画面通知としても表示</string>
+    <string name="settings_default_memo_type">デフォルトのメモ種別</string>
+    <string name="settings_default_memo_type_memo">メモ</string>
+    <string name="settings_default_memo_type_checklist">リスト</string>
+    <string name="settings_template_manager">テンプレート管理</string>
+    <string name="settings_tag_manager">タグ管理</string>
+    <string name="settings_privacy_lock">プライバシーロック</string>
+    <string name="settings_privacy_lock_desc">アプリ起動時に生体認証を要求</string>
+    <string name="settings_backup">バックアップ・復元</string>
+    <string name="settings_trash">ゴミ箱</string>
+
+    <string name="settings_contact">お問い合わせ</string>
+    <string name="settings_rate">このアプリを評価する</string>
+    <string name="settings_share">友達に共有</string>
+    <string name="settings_privacy_policy">プライバシーポリシー</string>
+    <string name="settings_tokushoho">特定商取引法に基づく表記</string>
+    <string name="settings_restore_purchase">購入を復元</string>
+    <string name="settings_version">バージョン %1$s</string>
+
+    <string name="settings_privacy_body">本アプリは収集した個人情報を外部送信しません。すべてのメモは端末内に保存され、ネットワーク通信は行いません。</string>
+
+    <!-- Trial / Billing -->
+    <string name="trial_title">無料期間中</string>
+    <string name="trial_remaining_days">残り %1$d 日</string>
+    <string name="trial_remaining_hours">残り %1$d 時間</string>
+    <string name="trial_purchase_button">永続版を購入 ¥250</string>
+    <string name="trial_expired_title">無料期間が終了しました</string>
+    <string name="trial_expired_desc">新規メモの作成・編集には永続版が必要です。既存メモは引き続き閲覧・共有できます。</string>
+    <string name="trial_purchased_title">永続版 ありがとうございます</string>
+    <string name="trial_purchased_desc">全機能をご利用いただけます</string>
+    <string name="trial_locked_message">無料期間が終了したため、編集・新規作成は永続版のご購入が必要です</string>
+
+    <!-- Trash -->
+    <string name="trash_desc">7日間経過したメモは自動的に完全削除されます</string>
+    <string name="trash_remaining">あと %1$d 日</string>
+    <string name="trash_restore_all">すべて復元</string>
+    <string name="trash_delete_all">すべて完全削除</string>
+    <string name="trash_delete_all_confirm">ゴミ箱内のすべてのメモを完全に削除します</string>
+
+    <!-- Backup -->
+    <string name="backup_section_export">手動エクスポート</string>
+    <string name="backup_section_import">インポート</string>
+    <string name="backup_export_txt">テキスト形式 (.txt) でエクスポート</string>
+    <string name="backup_export_json">JSON 形式 (.json) でエクスポート</string>
+    <string name="backup_import">ファイルから復元する</string>
+    <string name="backup_import_overwrite">上書き</string>
+    <string name="backup_import_merge">マージ（追加）</string>
+    <string name="backup_import_dialog_title">復元方法を選択</string>
+    <string name="backup_export_done">エクスポートしました</string>
+    <string name="backup_import_done">復元しました（%1$d 件）</string>
+    <string name="backup_import_failed">復元に失敗しました</string>
+
+    <!-- Privacy lock -->
+    <string name="privacy_lock_title">プライバシーロック</string>
+    <string name="privacy_lock_subtitle">続けるには認証が必要です</string>
+    <string name="privacy_lock_negative">キャンセル</string>
+    <string name="privacy_lock_unavailable">この端末では生体認証を利用できません</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_subtitle">広告なし・完全ローカル保存。\nまずは最初のメモを書いてみましょう。</string>
+    <string name="onboarding_widget_title">ホーム画面ウィジェット</string>
+    <string name="onboarding_widget_desc">よく使うリストをホーム画面に貼ることができます（あとで設定 OK）</string>
+    <string name="onboarding_notification_title">通知（Android 13+）</string>
+    <string name="onboarding_notification_desc">チェックリストをロック画面に表示するために使います</string>
+    <string name="onboarding_grant">許可する</string>
+    <string name="onboarding_granted">許可済み</string>
+    <string name="onboarding_start">始める</string>
+
+    <!-- FAQ (本文は FaqActivity 内で sealed class スタイルで構築) -->
+
+    <!-- Notification channels -->
+    <string name="notif_channel_checklist">チェックリスト</string>
+    <string name="notif_channel_checklist_desc">ウィジェットのチェックリストをロック画面に常時表示</string>
+    <string name="notif_channel_trial_expired">無料期間の終了</string>
+    <string name="notif_channel_trial_expired_desc">無料期間が終了したことのお知らせ</string>
+
+    <!-- Share text formatting -->
+    <string name="share_subject">%1$s</string>
+    <string name="share_checklist_checked">☑</string>
+    <string name="share_checklist_unchecked">□</string>
+
+    <!-- Misc -->
+    <string name="contact_email" translatable="false">info@morphyca.com</string>
+    <string name="privacy_policy_url" translatable="false">https://morphyca.com/products/simple-memo/privacy/</string>
+    <string name="tokushoho_url" translatable="false">https://morphyca.com/legal/tokushoho/</string>
+</resources>

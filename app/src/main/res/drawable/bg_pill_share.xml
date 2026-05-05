@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/state_pressed_overlay">
+    <item>
+        <shape android:shape="rectangle">
+            <!-- accent_blue を ~50% 不透明化 (alpha=80/255) でほんの少し濃く -->
+            <solid android:color="#80A8C5D6" />
+            <corners android:radius="100dp" />
+        </shape>
+    </item>
+</ripple>

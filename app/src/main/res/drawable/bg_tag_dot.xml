@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- タグ管理画面の row 左に表示する 12dp の色付き丸ドット。色は tint で。 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="#FFFFFFFF" />
+</shape>

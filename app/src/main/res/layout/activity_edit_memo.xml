@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/paper">
+
+    <!-- Toolbar (multi-color icons) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/toolbar_padding_h"
+        android:paddingEnd="@dimen/toolbar_padding_h">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/ink_secondary"
+            android:contentDescription="@string/action_back" />
+
+        <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/colorButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_palette"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_palette"
+            android:contentDescription="@string/action_color" />
+
+        <ImageButton
+            android:id="@+id/priorityButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_star_outline"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_priority"
+            android:contentDescription="@string/action_priority" />
+
+        <ImageButton
+            android:id="@+id/tagButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_label_outline"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_tag"
+            android:contentDescription="@string/action_tag" />
+
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_delete"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_delete"
+            android:contentDescription="@string/action_delete" />
+    </LinearLayout>
+
+    <View style="@style/HairLine" android:background="@color/hair_subtle" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- タイトルブロック: 画面端まで広がる (内部 padding でテキスト位置を確保) -->
+            <FrameLayout
+                android:id="@+id/titleBlock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/screen_padding_horizontal"
+                android:paddingEnd="@dimen/screen_padding_horizontal"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <EditText
+                    android:id="@+id/titleEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_title"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/inter_medium"
+                    android:textColor="@color/ink"
+                    android:textColorHint="@color/graphite"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:inputType="text" />
+            </FrameLayout>
+
+            <View
+                style="@style/HairLine"
+                android:layout_marginBottom="12dp" />
+
+            <EditText
+                android:id="@+id/bodyEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/screen_padding_horizontal"
+                android:layout_marginEnd="@dimen/screen_padding_horizontal"
+                android:hint="@string/hint_body"
+                android:textSize="16sp"
+                android:fontFamily="@font/inter_regular"
+                android:textColor="@color/ink"
+                android:textColorHint="@color/graphite"
+                android:background="@null"
+                android:gravity="top|start"
+                android:lineSpacingMultiplier="1.45"
+                android:inputType="textMultiLine|textCapSentences"
+                android:minHeight="320dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <View style="@style/HairLine" />
+
+    <!-- Bottom: 共有 / 保護 PillButtons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="12dp"
+        android:paddingBottom="20dp">
+
+        <LinearLayout
+            android:id="@+id/shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="@drawable/bg_pill_share"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/action_share">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_share"
+                app:tint="@color/accent_blue_dark"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/action_share"
+                android:textColor="@color/accent_blue_dark"
+                android:textSize="14sp"
+                android:fontFamily="@font/inter_medium" />
+        </LinearLayout>
+
+        <Space android:layout_width="12dp" android:layout_height="0dp" />
+
+        <LinearLayout
+            android:id="@+id/protectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="@drawable/bg_pill_protect"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/action_protect">
+
+            <ImageView
+                android:id="@+id/protectIcon"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_lock_open"
+                app:tint="@color/accent_sage_dark"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:id="@+id/protectLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/action_protect"
+                android:textColor="@color/accent_sage_dark"
+                android:textSize="14sp"
+                android:fontFamily="@font/inter_medium" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  メモカード 1 件分。背景色は MemoListAdapter.bind() で setBackgroundTintList() を
+  通して動的に渡す。typeIcon と priorityStars の tint も同様。
+-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="@dimen/card_gap"
+    android:background="@drawable/bg_memo_card"
+    android:backgroundTint="@color/color_default"
+    android:paddingStart="@dimen/card_padding_h"
+    android:paddingEnd="@dimen/card_padding_h"
+    android:paddingTop="@dimen/card_padding_v"
+    android:paddingBottom="@dimen/card_padding_v"
+    android:minHeight="56dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/typeIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_note"
+        app:tint="@color/ink"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/mainText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toEndOf="@id/typeIcon"
+        app:layout_constraintEnd_toStartOf="@id/lockIcon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/Text.Title.Card"
+        android:singleLine="true"
+        android:ellipsize="end"
+        tools:text="来週のプレゼン資料準備" />
+
+    <!-- 保護中アイコン (visibility は MemoListAdapter で切替) -->
+    <ImageView
+        android:id="@+id/lockIcon"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginEnd="6dp"
+        app:layout_constraintEnd_toStartOf="@id/priorityStars"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_lock"
+        app:tint="@color/ink"
+        android:visibility="gone"
+        android:contentDescription="@null"
+        tools:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/priorityStars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@id/dragHandle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible">
+        <!-- ★ ImageView は MemoListAdapter で動的に追加 -->
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/dragHandle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_drag_handle"
+        app:tint="@color/ink"
+        android:visibility="gone"
+        android:contentDescription="@null" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

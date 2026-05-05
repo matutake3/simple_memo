@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="56dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingStart="@dimen/screen_padding_horizontal"
+    android:paddingEnd="@dimen/screen_padding_horizontal"
+    android:paddingTop="@dimen/row_padding_vertical"
+    android:paddingBottom="@dimen/row_padding_vertical"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/typeIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:tint="@color/ink_secondary"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/templateName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="14dp"
+        style="@style/Text.Body.Large"
+        tools:text="やること" />
+
+    <ImageView style="@style/SettingsChevron" />
+</LinearLayout>
