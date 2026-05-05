@@ -41,13 +41,31 @@
         android:layout_marginStart="14dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintStart_toEndOf="@id/typeIcon"
-        app:layout_constraintEnd_toStartOf="@id/lockIcon"
+        app:layout_constraintEnd_toStartOf="@id/tagInitial"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         style="@style/Text.Title.Card"
         android:singleLine="true"
         android:ellipsize="end"
         tools:text="来週のプレゼン資料準備" />
+
+    <!-- タグ先頭文字ミニチップ (オプション設定で表示)。色は MemoListAdapter で動的に。 -->
+    <TextView
+        android:id="@+id/tagInitial"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginEnd="6dp"
+        app:layout_constraintEnd_toStartOf="@id/lockIcon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:textSize="11sp"
+        android:fontFamily="@font/inter_medium"
+        android:includeFontPadding="false"
+        android:background="@drawable/bg_tag_initial"
+        android:visibility="gone"
+        tools:text="仕"
+        tools:visibility="visible" />
 
     <!-- 保護中アイコン (visibility は MemoListAdapter で切替) -->
     <ImageView

@@ -43,6 +43,10 @@ class SettingsActivity : AppCompatActivity() {
 
         // ★順スイッチは廃止 (メイン画面の ⇅ 並び替え機能に統合)
 
+        // タグマーク表示
+        binding.switchTagInitial.isChecked = settings.showTagInitialOnCard
+        binding.switchTagInitial.setOnCheckedChangeListener { _, c -> settings.showTagInitialOnCard = c }
+
         // ウィジェット通知
         binding.switchWidgetNotif.isChecked = settings.widgetNotificationEnabled
         binding.switchWidgetNotif.setOnCheckedChangeListener { _, c -> settings.widgetNotificationEnabled = c }

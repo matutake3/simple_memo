@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,8 @@ import jp.simplist.memo.util.MemoColorUtils
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * テキストメモの編集画面 (DESIGN_SPEC §7-B)。
@@ -41,6 +44,12 @@ class EditMemoActivity : AppCompatActivity() {
     private var memo: Memo? = null
     private var saveJob: Job? = null
     private var canEdit: Boolean = true
+    /** 当 Activity セッションで新規作成された場合 true。空のまま戻ったら DB から消す判定に使う。 */
+    private var isNewMemo: Boolean = false
+    /** 保存処理 (insert / update) を直列化して二重 insert を防ぐ。 */
+    private val saveMutex = Mutex()
+    /** observeMemo を多重起動させないためのジョブ参照。 */
+    private var observeJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +60,7 @@ class EditMemoActivity : AppCompatActivity() {
         canEdit = TrialManager.get().canEditMemos()
 
         memoId = intent.getLongExtra(EXTRA_MEMO_ID, 0L)
+        isNewMemo = memoId == 0L
         val templateId = intent.getLongExtra(EXTRA_TEMPLATE_ID, 0L)
         val initialTagId = if (intent.hasExtra(EXTRA_INITIAL_TAG_ID))
             intent.getLongExtra(EXTRA_INITIAL_TAG_ID, -1L) else null
@@ -60,13 +70,15 @@ class EditMemoActivity : AppCompatActivity() {
         wireWatchers()
 
         lifecycleScope.launch {
-            if (memoId == 0L) {
-                // 新規作成
+            if (isNewMemo) {
+                // 新規メモは内容 (title / body) が入るまで DB に書かない。
+                // → 「FAB タップ → すぐ戻る」で一覧に「無題のメモ」が一瞬映る問題を回避。
                 val (initTitle, initBody) = if (templateId > 0L) {
                     val tpl = TemplateRepository.get(this@EditMemoActivity).getById(templateId)
-                    (tpl?.title to tpl?.body)
+                    val title = tpl?.title?.takeIf { it.isNotBlank() } ?: tpl?.name
+                    (title to tpl?.body)
                 } else (null to null)
-                val newMemo = Memo(
+                memo = Memo(
                     type = MemoType.TEXT,
                     title = initTitle,
                     body = initBody,
@@ -75,21 +87,26 @@ class EditMemoActivity : AppCompatActivity() {
                     priority = 0,
                     isProtected = false,
                 )
-                memoId = repo.insertMemo(newMemo)
-            }
-            // 観測
-            repo.observeMemo(memoId).collect { current ->
-                if (current == null) {
-                    finish(); return@collect
+                renderMemo(memo!!)
+                // テンプレからの初期内容ありなら即 insert (= ここで実 DB に書く)
+                if (!initTitle.isNullOrBlank() || !initBody.isNullOrBlank()) {
+                    saveImmediate(memo!!)
                 }
-                memo = current
-                renderMemo(current)
+            } else {
+                startObserving()
             }
         }
 
         if (!canEdit) {
             binding.titleEdit.isEnabled = false
             binding.bodyEdit.isEnabled = false
+        } else if (isNewMemo) {
+            // 新規メモはタイトルにフォーカス + IME 自動表示
+            binding.titleEdit.requestFocus()
+            binding.titleEdit.post {
+                val imm = getSystemService(InputMethodManager::class.java)
+                imm?.showSoftInput(binding.titleEdit, InputMethodManager.SHOW_IMPLICIT)
+            }
         }
     }
 
@@ -171,12 +188,13 @@ class EditMemoActivity : AppCompatActivity() {
         // EditText 自身の背景は @null のまま (XML 定義どおり)。
         val cardColor = MemoColorUtils.resolve(this, m.color)
         binding.titleBlock.setBackgroundColor(cardColor)
-        // protect ボタン状態
-        binding.protectIcon.setImageResource(
+        // 保護ボタン: ロック開閉アイコンで状態表示。
+        binding.protectButton.setImageResource(
             if (m.isProtected) R.drawable.ic_lock else R.drawable.ic_lock_open,
         )
-        binding.protectIcon.imageTintList = ColorStateList.valueOf(getColor(R.color.accent_sage_dark))
-        binding.protectLabel.text = getString(
+        binding.protectButton.imageTintList =
+            ColorStateList.valueOf(getColor(R.color.icon_protect))
+        binding.protectButton.contentDescription = getString(
             if (m.isProtected) R.string.action_unprotect else R.string.action_protect,
         )
         // 優先度アイコンは設定有無で切替
@@ -203,9 +221,38 @@ class EditMemoActivity : AppCompatActivity() {
         saveImmediate(current.copy(title = title, body = body))
     }
 
+    private fun startObserving() {
+        if (observeJob?.isActive == true) return
+        observeJob = lifecycleScope.launch {
+            repo.observeMemo(memoId).collect { current ->
+                if (current == null) {
+                    finish(); return@collect
+                }
+                memo = current
+                renderMemo(current)
+            }
+        }
+    }
+
     private fun saveImmediate(updated: Memo) {
         memo = updated
-        lifecycleScope.launch { repo.updateMemo(updated) }
+        // まだ insert されていない時点では Flow からの再描画が来ないので手動で render。
+        if (memoId == 0L) renderMemo(updated)
+        lifecycleScope.launch {
+            saveMutex.withLock {
+                val state = memo ?: return@withLock
+                if (memoId == 0L) {
+                    // 内容 (title / body) が空のままなら DB に書かない。
+                    val titleBlank = state.title.isNullOrBlank()
+                    val bodyBlank = state.body.isNullOrBlank()
+                    if (titleBlank && bodyBlank) return@withLock
+                    memoId = repo.insertMemo(state)
+                    startObserving()
+                } else {
+                    repo.updateMemo(state)
+                }
+            }
+        }
     }
 
     private fun ensureCanEdit(): Boolean {
@@ -219,7 +266,28 @@ class EditMemoActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        // 終了 (back / finish) かつ新規メモが空 → DB から消す。それ以外は通常の autosave。
+        if (isFinishing && discardIfEmpty()) return
         commitNow()
+    }
+
+    /**
+     * 新規作成された空のメモを破棄する。
+     * 戻り値: 破棄が走ったら true (commitNow をスキップしてよい)。
+     */
+    private fun discardIfEmpty(): Boolean {
+        if (!isNewMemo) return false
+        val titleBlank = binding.titleEdit.text?.toString()?.isBlank() ?: true
+        val bodyBlank = binding.bodyEdit.text?.toString()?.isBlank() ?: true
+        if (!(titleBlank && bodyBlank)) return false
+        saveJob?.cancel()
+        val id = memoId
+        if (id != 0L) {
+            // lifecycleScope は ON_DESTROY で cancel されるが、Room の delete は数 ms で完了するため
+            // onPause → onStop → onDestroy 間に余裕がある。
+            lifecycleScope.launch { repo.deletePermanently(id) }
+        }
+        return true
     }
 
     private fun simpleWatcher(action: () -> Unit) = object : TextWatcher {

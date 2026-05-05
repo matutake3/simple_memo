@@ -110,6 +110,77 @@
             android:parentActivityName=".ui.SettingsActivity" />
 
         <!-- ============================================================
+             Widgets (テキストメモ / チェックリスト)
+             ============================================================ -->
+        <receiver
+            android:name=".widget.TextMemoWidgetProvider"
+            android:exported="false"
+            android:label="シンプルメモ帳: テキスト">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_text_memo_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.ChecklistWidgetProvider"
+            android:exported="false"
+            android:label="シンプルメモ帳: リスト">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_checklist_info" />
+        </receiver>
+
+        <service
+            android:name=".widget.ChecklistRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" />
+
+        <receiver
+            android:name=".widget.ChecklistToggleReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="jp.simplist.memo.widget.action.TOGGLE_CHECK" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 設定 Activity: OS が直接起動するため exported=true 必須 -->
+        <activity
+            android:name=".widget.TextMemoConfigActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SimpleMemo"
+            android:label="テキストメモを選択">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".widget.ChecklistConfigActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SimpleMemo"
+            android:label="リストを選択">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <!-- ウィジェット「項目を追加」行から開くクイック追加 (浮動ダイアログ)。
+             taskAffinity を空にして本体メインタスクと切り離し、メイン画面が背後に出ないようにする。 -->
+        <activity
+            android:name=".widget.QuickAddItemActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SimpleMemo.QuickAdd"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:launchMode="singleInstance" />
+
+        <!-- ============================================================
              Downloadable Fonts (Inter family)
              ============================================================ -->
         <meta-data

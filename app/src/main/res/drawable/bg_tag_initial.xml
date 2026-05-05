@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- メモカードに表示するタグ先頭文字ミニチップの背景 (4dp 角丸四角)。
+     色は MemoListAdapter で setBackgroundTintList により動的に渡す。 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#FFFFFFFF" />
+    <corners android:radius="4dp" />
+</shape>

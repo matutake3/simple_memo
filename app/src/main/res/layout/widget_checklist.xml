@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  チェックリストウィジェットのルートレイアウト。
+  ヘッダー (濃) + ボディ (淡) の 2 段構成。
+  ボディ内: ListView + クイック追加行 (最下段)。
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widgetRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_widget_card_default">
+
+    <LinearLayout
+        android:id="@+id/widgetContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/widgetHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_widget_header_default"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp">
+
+            <TextView
+                android:id="@+id/widgetTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:fontFamily="@font/inter_medium"
+                android:textColor="@color/ink"
+                android:singleLine="true"
+                android:ellipsize="end" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/widgetBody"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:background="@drawable/bg_widget_body_default"
+            android:paddingHorizontal="6dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="2dp">
+
+            <ListView
+                android:id="@+id/checklistItems"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:listSelector="@android:color/transparent" />
+
+            <!-- 項目 0 件のときの代替表示 (ListView の emptyView) -->
+            <TextView
+                android:id="@+id/checklistEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="項目がありません"
+                android:textSize="12sp"
+                android:textColor="@color/graphite"
+                android:visibility="gone" />
+
+            <!-- クイック追加行: タップで QuickAddItemActivity を開く -->
+            <LinearLayout
+                android:id="@+id/quickAddRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="6dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_add"
+                    android:tint="@color/ink_secondary"
+                    android:contentDescription="@null" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="項目を追加"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/inter_regular"
+                    android:textColor="@color/ink_secondary" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- メモ削除時の状態表示 -->
+    <LinearLayout
+        android:id="@+id/widgetEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="14dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="メモが削除されました"
+            android:textSize="13sp"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/ink_secondary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="タップして別のメモを選択"
+            android:textSize="11sp"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/graphite" />
+    </LinearLayout>
+</FrameLayout>

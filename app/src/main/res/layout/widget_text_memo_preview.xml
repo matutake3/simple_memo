@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ウィジェット一覧 (ピッカー) で表示されるプレビュー。ヘッダー (濃) + ボディ (淡) の 2 段構成。 -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_widget_header_1"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="メモのタイトル"
+                android:textSize="14sp"
+                android:fontFamily="@font/inter_medium"
+                android:textColor="@color/ink"
+                android:singleLine="true"
+                android:ellipsize="end" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_widget_body_1"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ホーム画面でメモの本文を確認できます。"
+                android:textSize="12sp"
+                android:fontFamily="@font/inter_regular"
+                android:textColor="@color/ink_secondary"
+                android:maxLines="3"
+                android:ellipsize="end" />
+        </FrameLayout>
+    </LinearLayout>
+</FrameLayout>

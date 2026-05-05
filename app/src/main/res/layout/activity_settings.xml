@@ -54,6 +54,23 @@
 
             <!-- 旧「★順を有効にする」スイッチは廃止 (メイン画面の ⇅ 並び替え機能に統合)。 -->
 
+            <!-- Row: タグマークをカードに表示 -->
+            <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowTagInitial">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical">
+                    <TextView style="@style/Text.Body.Large" android:text="@string/settings_tag_initial"
+                        android:layout_width="match_parent" android:layout_height="wrap_content" />
+                    <TextView style="@style/Text.Caption" android:text="@string/settings_tag_initial_desc"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchTagInitial"
+                    style="@style/SimpleMemo.MaterialSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
             <!-- Row: ウィジェット通知 -->
             <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowWidgetNotif">
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"

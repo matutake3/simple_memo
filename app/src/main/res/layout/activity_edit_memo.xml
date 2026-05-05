@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="@color/paper">
 
-    <!-- Toolbar (multi-color icons) -->
+    <!-- Toolbar: 戻るのみ。各種アクションはフッターに集約。 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
@@ -25,44 +25,6 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             app:tint="@color/ink_secondary"
             android:contentDescription="@string/action_back" />
-
-        <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/colorButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_palette"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/icon_palette"
-            android:contentDescription="@string/action_color" />
-
-        <ImageButton
-            android:id="@+id/priorityButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_star_outline"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/icon_priority"
-            android:contentDescription="@string/action_priority" />
-
-        <ImageButton
-            android:id="@+id/tagButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_label_outline"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/icon_tag"
-            android:contentDescription="@string/action_tag" />
-
-        <ImageButton
-            android:id="@+id/deleteButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_delete"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/icon_delete"
-            android:contentDescription="@string/action_delete" />
     </LinearLayout>
 
     <View style="@style/HairLine" android:background="@color/hair_subtle" />
@@ -78,7 +40,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- タイトルブロック: 画面端まで広がる (内部 padding でテキスト位置を確保) -->
             <FrameLayout
                 android:id="@+id/titleBlock"
                 android:layout_width="match_parent"
@@ -127,77 +88,76 @@
 
     <View style="@style/HairLine" />
 
-    <!-- Bottom: 共有 / 保護 PillButtons -->
+    <!-- Footer: 6 アイコン (色 / 重要度 / タグ / 削除 / 共有 / 保護) を等幅で並べる。
+         片手操作前提で右上に置かず下端に集約。 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingTop="12dp"
-        android:paddingBottom="20dp">
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/screen_padding_horizontal"
+        android:paddingEnd="@dimen/screen_padding_horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="14dp">
 
-        <LinearLayout
+        <ImageButton
+            android:id="@+id/colorButton"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_palette"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_palette"
+            android:contentDescription="@string/action_color" />
+
+        <ImageButton
+            android:id="@+id/priorityButton"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_star_outline"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_priority"
+            android:contentDescription="@string/action_priority" />
+
+        <ImageButton
+            android:id="@+id/tagButton"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_label_outline"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_tag"
+            android:contentDescription="@string/action_tag" />
+
+        <ImageButton
             android:id="@+id/shareButton"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:background="@drawable/bg_pill_share"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/action_share">
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_share"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_share"
+            android:contentDescription="@string/action_share" />
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/ic_share"
-                app:tint="@color/accent_blue_dark"
-                android:contentDescription="@null" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/action_share"
-                android:textColor="@color/accent_blue_dark"
-                android:textSize="14sp"
-                android:fontFamily="@font/inter_medium" />
-        </LinearLayout>
-
-        <Space android:layout_width="12dp" android:layout_height="0dp" />
-
-        <LinearLayout
+        <ImageButton
             android:id="@+id/protectButton"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:background="@drawable/bg_pill_protect"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="@string/action_protect">
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_lock_open"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_protect"
+            android:contentDescription="@string/action_protect" />
 
-            <ImageView
-                android:id="@+id/protectIcon"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/ic_lock_open"
-                app:tint="@color/accent_sage_dark"
-                android:contentDescription="@null" />
-
-            <TextView
-                android:id="@+id/protectLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/action_protect"
-                android:textColor="@color/accent_sage_dark"
-                android:textSize="14sp"
-                android:fontFamily="@font/inter_medium" />
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_delete"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/icon_delete"
+            android:contentDescription="@string/action_delete" />
     </LinearLayout>
 </LinearLayout>

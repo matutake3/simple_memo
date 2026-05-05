@@ -5,38 +5,42 @@ import jp.simplist.memo.data.AppSettings
 
 /**
  * プライバシーロックの guard。
- * - 設定 ON のとき、アプリ起動時 / バックグラウンド復帰時に呼び出す。
- * - 認証成功でアプリ終了まで再認証なし (App scope の lastUnlockedAt 管理)。
  *
- * V1: アプリ全体ロック (個別メモロックは v2)。
+ * セッション仕様 (2026-05 更新版・最終):
+ *  - 認証状態は **インメモリのみ** (SharedPreferences には書かない)
+ *  - したがって OS によるプロセス kill / アプリ強制終了で session が自動失効
+ *    → 「アプリを完全に終了して再起動した時のみ」再認証要求
+ *  - 一時的な背景化 (ホームボタン → 別アプリ → 戻る等) では再認証しない
+ *    (端末ロック画面で十分な防御になっており、頻繁な再認証は UX を損なうため)
+ *
+ * v1 ではアプリ全体に対するロック (個別メモロックは v2)。
  */
 object PrivacyLockController {
 
-    /** SESSION_TTL_MS を超えてロック中なら認証要求。簡易: 一度成功したら今回起動中は再要求しない。 */
-    private const val SESSION_TTL_MS = 24L * 60L * 60L * 1000L
+    /** 認証成功フラグ。プロセス kill で当然リセットされる (= 再起動時に再認証)。 */
+    @Volatile private var unlocked: Boolean = false
+
+    /** 現在の認証状態。Activity 側で「認証完了までコンテンツを隠す」判定に使う。 */
+    fun isUnlocked(): Boolean = unlocked
 
     /**
      * Activity の onResume 等で呼ぶ。
-     * 設定 OFF か、過去 SESSION_TTL_MS 以内に成功していればコールバック即発火。
-     * それ以外は BiometricPrompt を出して、成功時にコールバック。
+     * - 設定 OFF または既に認証済みなら即 onUnlocked
+     * - それ以外は BiometricPrompt を出して、成功時にコールバック
+     * - 認証不可端末では fallthrough (UI を死なせないため)
      */
     fun guard(activity: FragmentActivity, onUnlocked: () -> Unit) {
         val settings = AppSettings.get(activity)
         if (!settings.privacyLockEnabled) { onUnlocked(); return }
-        val now = System.currentTimeMillis()
-        if (now - settings.lastUnlockedAt < SESSION_TTL_MS) { onUnlocked(); return }
-        if (!BiometricHelper.canAuthenticate(activity)) {
-            // 設定で ON にしてあるが端末側で利用不可になった場合 → fallthrough。
-            onUnlocked()
-            return
-        }
+        if (unlocked) { onUnlocked(); return }
+        if (!BiometricHelper.canAuthenticate(activity)) { onUnlocked(); return }
+
         BiometricHelper.authenticate(activity,
             onSuccess = {
-                settings.lastUnlockedAt = System.currentTimeMillis()
+                unlocked = true
                 onUnlocked()
             },
             onFailure = {
-                // 認証失敗 → アプリを閉じる
                 activity.finishAffinity()
             },
         )

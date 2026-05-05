@@ -38,6 +38,8 @@ class MemoListAdapter(
     /** 複数選択モード中かつ選択中の id 集合。MainActivity から submit 時に渡る。 */
     private var selectedIds: Set<Long> = emptySet()
     private var multiSelectMode: Boolean = false
+    /** タグ先頭文字ミニチップを表示するか (AppSettings.showTagInitialOnCard より MainActivity が反映)。 */
+    private var showTagInitial: Boolean = false
 
     /** 並び替えモード中の挙動: 一時的にローカル list を入れ替えてレンダ。 */
     private var workingList: MutableList<Memo>? = null
@@ -50,7 +52,15 @@ class MemoListAdapter(
     override fun onBindViewHolder(holder: VH, position: Int) {
         val memo = currentDisplayedAt(position)
         val isSelected = multiSelectMode && memo.id in selectedIds
-        holder.bind(memo, sortMode, multiSelectMode, isSelected, onMemoClick, onMemoLongClick)
+        val tag = memo.tagId?.let { tagsById[it] }
+        holder.bind(memo, sortMode, multiSelectMode, isSelected, showTagInitial, tag, onMemoClick, onMemoLongClick)
+    }
+
+    fun setShowTagInitial(enabled: Boolean) {
+        if (showTagInitial != enabled) {
+            showTagInitial = enabled
+            notifyDataSetChanged()
+        }
     }
 
     override fun getItemCount(): Int = workingList?.size ?: super.getItemCount()
@@ -109,6 +119,8 @@ class MemoListAdapter(
             sortMode: Boolean,
             multiSelectMode: Boolean,
             isSelected: Boolean,
+            showTagInitial: Boolean,
+            tag: Tag?,
             onClick: (Memo) -> Unit,
             onLongClick: (Memo, View) -> Unit,
         ) {
@@ -116,27 +128,38 @@ class MemoListAdapter(
             val cardColor = MemoColorUtils.resolve(ctx, memo.color)
             val derived = MemoColorUtils.darkenForOnSurface(cardColor)
 
+            // 複数選択モードの視覚表現:
+            //   選択中 → 通常色のまま (alpha 1.0)
+            //   未選択 → カード全体を alpha 0.4 で薄くフェード
+            // 「選んだものをさらに濃くする」とラベル表示のように見えるためやめた。
             binding.root.backgroundTintList = ColorStateList.valueOf(cardColor)
+            binding.root.alpha = if (multiSelectMode && !isSelected) 0.4f else 1f
+            binding.selectionBadge.visibility = View.GONE
             // type アイコンは常に種別を反映 (チェック付き正方形 or テキストメモ)
             binding.typeIcon.setImageResource(
                 if (memo.type == MemoType.TEXT) R.drawable.ic_note else R.drawable.ic_check_square,
             )
             binding.typeIcon.imageTintList = ColorStateList.valueOf(derived)
-            // 複数選択モードの視覚表現:
-            //   選択中  → typeIcon を選択バッジ (sage 円 + 白チェック) で覆う + alpha 1.0
-            //   未選択  → バッジ非表示 + alpha 0.4 で大きくフェード
-            if (multiSelectMode && isSelected) {
-                binding.selectionBadge.visibility = View.VISIBLE
-                binding.root.alpha = 1f
-            } else if (multiSelectMode) {
-                binding.selectionBadge.visibility = View.GONE
-                binding.root.alpha = 0.4f
-            } else {
-                binding.selectionBadge.visibility = View.GONE
-                binding.root.alpha = 1f
-            }
             binding.mainText.text = primaryDisplayText(memo)
             binding.mainText.setTextColor(ctx.getColor(R.color.ink))
+            // タグ先頭文字ミニチップ
+            if (showTagInitial && tag != null) {
+                val tagFirstChar = tag.name.firstOrNull()?.toString().orEmpty()
+                if (tagFirstChar.isNotEmpty()) {
+                    binding.tagInitial.visibility = View.VISIBLE
+                    binding.tagInitial.text = tagFirstChar
+                    val tagColorInt = MemoColorUtils.resolve(ctx, tag.color)
+                    val paperColor = ctx.getColor(R.color.paper)
+                    binding.tagInitial.backgroundTintList = ColorStateList.valueOf(
+                        MemoColorUtils.blendForChipBackground(tagColorInt, paperColor),
+                    )
+                    binding.tagInitial.setTextColor(MemoColorUtils.darkenForChipText(tagColorInt))
+                } else {
+                    binding.tagInitial.visibility = View.GONE
+                }
+            } else {
+                binding.tagInitial.visibility = View.GONE
+            }
             // 保護中マーク
             if (memo.isProtected) {
                 binding.lockIcon.visibility = View.VISIBLE

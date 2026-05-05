@@ -63,6 +63,10 @@
     <string name="backup_last_format">前回のバックアップ: %1$s</string>
     <string name="backup_last_never">未実行</string>
 
+    <!-- カードのタグマーク表示 (2026-05) -->
+    <string name="settings_tag_initial">タグマークをカードに表示</string>
+    <string name="settings_tag_initial_desc">タグの先頭 1 文字をカードに小さく表示</string>
+
     <!-- 並び替え (新仕様 2026-05) -->
     <string name="sort_dialog_title">並び替え</string>
     <string name="sort_updated">更新日順</string>

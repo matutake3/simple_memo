@@ -90,7 +90,7 @@
                     android:contentDescription="@string/action_more" />
             </LinearLayout>
 
-            <!-- 複数選択モードのツールバー -->
+            <!-- 複数選択モードのトップバー: 閉じる + 件数表示のみ。各アクションはフッターに配置。 -->
             <LinearLayout
                 android:id="@+id/multiSelectToolbar"
                 android:layout_width="match_parent"
@@ -121,42 +121,6 @@
                     android:textSize="17sp"
                     android:singleLine="true"
                     tools:text="3 件選択" />
-
-                <ImageButton
-                    android:id="@+id/msTagButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_label_outline"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/ink"
-                    android:contentDescription="@string/action_tag" />
-
-                <ImageButton
-                    android:id="@+id/msProtectButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_lock_open"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/ink"
-                    android:contentDescription="@string/action_protect" />
-
-                <ImageButton
-                    android:id="@+id/msDeleteButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_delete"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/ink"
-                    android:contentDescription="@string/action_delete" />
-
-                <ImageButton
-                    android:id="@+id/msMoreButton"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_more_vert"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/ink"
-                    android:contentDescription="@string/action_more" />
             </LinearLayout>
         </FrameLayout>
 
@@ -235,6 +199,79 @@
                     android:gravity="center" />
             </LinearLayout>
         </FrameLayout>
+
+        <!-- 複数選択モード時のフッター: タグ / 保護 / 複製 / 全選択 / 削除 を等幅。 -->
+        <LinearLayout
+            android:id="@+id/multiSelectFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <View style="@style/HairLine" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/screen_padding_horizontal"
+                android:paddingEnd="@dimen/screen_padding_horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="14dp">
+
+                <ImageButton
+                    android:id="@+id/msTagButton"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_label_outline"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/icon_tag"
+                    android:contentDescription="@string/action_tag" />
+
+                <ImageButton
+                    android:id="@+id/msProtectButton"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_lock_open"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/icon_protect"
+                    android:contentDescription="@string/action_protect" />
+
+                <ImageButton
+                    android:id="@+id/msDuplicateButton"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_copy"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/ink_secondary"
+                    android:contentDescription="@string/multi_duplicate" />
+
+                <ImageButton
+                    android:id="@+id/msSelectAllButton"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_select_all"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/ink_secondary"
+                    android:contentDescription="@string/multi_select_all" />
+
+                <ImageButton
+                    android:id="@+id/msDeleteButton"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_delete"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/icon_delete"
+                    android:contentDescription="@string/action_delete" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <!-- FAB pair (memo + list) -->
@@ -322,5 +359,44 @@
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>
+
+    <!--
+      プライバシーロック認証中のコンテンツ目隠しオーバーレイ。
+      MainActivity.onCreate で「認証必要」と判定された時だけ visibility を VISIBLE に。
+      認証成功 → onUnlocked で GONE。これによりメモ一覧が背後に透けて見えるのを防ぐ。
+      CoordinatorLayout の最後の子なので z-order 上は最前面に描画される。
+    -->
+    <FrameLayout
+        android:id="@+id/lockOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/paper"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/ic_lock"
+                app:tint="@color/accent_sage_dark"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                style="@style/Text.Body.Sub"
+                android:text="@string/privacy_lock_subtitle" />
+        </LinearLayout>
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

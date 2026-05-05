@@ -45,10 +45,8 @@ class AppSettings private constructor(context: Context) {
         get() = prefs.getBoolean(KEY_PRESETS_SEEDED, false)
         set(value) { prefs.edit().putBoolean(KEY_PRESETS_SEEDED, value).apply() }
 
-    /** プライバシーロック認証完了時刻 (epoch ms)。アプリ終了で 0 にリセット。 */
-    var lastUnlockedAt: Long
-        get() = prefs.getLong(KEY_LAST_UNLOCK, 0L)
-        set(value) { prefs.edit().putLong(KEY_LAST_UNLOCK, value).apply() }
+    // 旧 lastUnlockedAt (SharedPreferences 版) は廃止。
+    // 認証セッションは PrivacyLockController でインメモリ管理 (プロセス kill で自動失効)。
 
     /** バックアップ先フォルダの SAF Tree URI (永続化済み)。null = 未設定。 */
     var backupFolderUri: String?
@@ -65,6 +63,11 @@ class AppSettings private constructor(context: Context) {
         get() = prefs.getLong(KEY_BACKUP_LAST, 0L)
         set(value) { prefs.edit().putLong(KEY_BACKUP_LAST, value).apply() }
 
+    /** メモカード上にタグの先頭 1 文字をミニチップで表示するか。 */
+    var showTagInitialOnCard: Boolean
+        get() = prefs.getBoolean(KEY_TAG_INITIAL, false)
+        set(value) { prefs.edit().putBoolean(KEY_TAG_INITIAL, value).apply() }
+
     companion object {
         private const val NAME = "app_settings"
         private const val KEY_LIST_SORT_MODE = "list_sort_mode"
@@ -73,10 +76,10 @@ class AppSettings private constructor(context: Context) {
         private const val KEY_PRIVACY_LOCK = "privacy_lock_enabled"
         private const val KEY_ONBOARDING_DONE = "onboarding_done"
         private const val KEY_PRESETS_SEEDED = "presets_seeded"
-        private const val KEY_LAST_UNLOCK = "last_unlocked_at"
         private const val KEY_BACKUP_FOLDER = "backup_folder_uri"
         private const val KEY_BACKUP_AUTO = "backup_auto_enabled"
         private const val KEY_BACKUP_LAST = "backup_last_at"
+        private const val KEY_TAG_INITIAL = "tag_initial_on_card"
 
         @Volatile private var INSTANCE: AppSettings? = null
 

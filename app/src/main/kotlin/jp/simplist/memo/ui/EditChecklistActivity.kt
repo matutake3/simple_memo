@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -28,6 +29,8 @@ import jp.simplist.memo.util.MemoColorUtils
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * チェックリスト編集画面 (DESIGN_SPEC §7-C)。
@@ -51,6 +54,15 @@ class EditChecklistActivity : AppCompatActivity() {
     private var memo: Memo? = null
     private var saveJob: Job? = null
     private var canEdit: Boolean = true
+    /** 当 Activity セッションで新規作成された場合 true。空のまま戻ったら DB から消す判定に使う。 */
+    private var isNewMemo: Boolean = false
+    /** 最新の checklist items キャッシュ (Flow から更新)。discardIfEmpty で参照。 */
+    private var currentItems: List<ChecklistItem> = emptyList()
+    /** 保存処理 (insert / update) を直列化して二重 insert を防ぐ。 */
+    private val saveMutex = Mutex()
+    /** observe を多重起動させないためのジョブ参照。 */
+    private var memoObserveJob: Job? = null
+    private var itemsObserveJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +73,7 @@ class EditChecklistActivity : AppCompatActivity() {
         canEdit = TrialManager.get().canEditMemos()
 
         memoId = intent.getLongExtra(EditMemoActivity.EXTRA_MEMO_ID, 0L)
+        isNewMemo = memoId == 0L
         val templateId = intent.getLongExtra(EditMemoActivity.EXTRA_TEMPLATE_ID, 0L)
         val initialTagId = if (intent.hasExtra(EditMemoActivity.EXTRA_INITIAL_TAG_ID))
             intent.getLongExtra(EditMemoActivity.EXTRA_INITIAL_TAG_ID, -1L) else null
@@ -71,12 +84,14 @@ class EditChecklistActivity : AppCompatActivity() {
         setupRecycler()
 
         lifecycleScope.launch {
-            if (memoId == 0L) {
+            if (isNewMemo) {
+                // 新規リストはタイトル / 項目が入るまで DB に書かない。
                 val (initTitle, items) = if (templateId > 0L) {
                     val tpl = TemplateRepository.get(this@EditChecklistActivity).getById(templateId)
-                    tpl?.title to (tpl?.items() ?: emptyList())
+                    val title = tpl?.title?.takeIf { it.isNotBlank() } ?: tpl?.name
+                    title to (tpl?.items() ?: emptyList())
                 } else (null to emptyList())
-                val newMemo = Memo(
+                memo = Memo(
                     type = MemoType.CHECKLIST,
                     title = initTitle,
                     color = 0,
@@ -84,31 +99,30 @@ class EditChecklistActivity : AppCompatActivity() {
                     tagId = initialTagId?.takeIf { it > 0L },
                     isProtected = false,
                 )
-                memoId = repo.insertMemo(newMemo)
-                if (items.isNotEmpty()) {
-                    val seeded = items.mapIndexed { i, t -> ChecklistItem(memoId = memoId, text = t, sortOrder = i) }
-                    repo.insertChecklistItems(seeded)
+                renderMemo(memo!!)
+                // 項目0件なのでタップ要素を見せる (まだ observe を始めていないので手動で)
+                binding.emptyTapZone.visibility = android.view.View.VISIBLE
+                // テンプレからの初期内容ありなら即 insert + 項目投入
+                if (!initTitle.isNullOrBlank() || items.isNotEmpty()) {
+                    ensureMemoInserted()
+                    if (memoId != 0L && items.isNotEmpty()) {
+                        val seeded = items.mapIndexed { i, t ->
+                            ChecklistItem(memoId = memoId, text = t, sortOrder = i)
+                        }
+                        repo.insertChecklistItems(seeded)
+                    }
                 }
-            }
-            launch {
-                repo.observeMemo(memoId).collect {
-                    if (it == null) { finish(); return@collect }
-                    memo = it; renderMemo(it)
-                }
-            }
-            launch {
-                repo.observeChecklistItems(memoId).collect { items ->
-                    adapter.submit(items)
-                    // リストが空のときだけタップ用のオーバーレイ表示
-                    binding.emptyTapZone.visibility =
-                        if (items.isEmpty()) android.view.View.VISIBLE else android.view.View.GONE
-                }
+            } else {
+                startObservingMemo()
+                startObservingItems()
             }
         }
 
         binding.emptyTapZone.setOnClickListener {
             if (!canEdit) return@setOnClickListener
             lifecycleScope.launch {
+                ensureMemoInserted()
+                if (memoId == 0L) return@launch
                 val newId = repo.insertChecklistItem(
                     ChecklistItem(memoId = memoId, text = "", checked = false, sortOrder = 0),
                 )
@@ -118,6 +132,13 @@ class EditChecklistActivity : AppCompatActivity() {
 
         if (!canEdit) {
             binding.titleEdit.isEnabled = false
+        } else if (isNewMemo) {
+            // 新規リストはタイトルにフォーカス + IME 自動表示
+            binding.titleEdit.requestFocus()
+            binding.titleEdit.post {
+                val imm = getSystemService(InputMethodManager::class.java)
+                imm?.showSoftInput(binding.titleEdit, InputMethodManager.SHOW_IMPLICIT)
+            }
         }
     }
 
@@ -250,6 +271,10 @@ class EditChecklistActivity : AppCompatActivity() {
                 startActivity(Intent.createChooser(intent, getString(R.string.action_share)))
             }
         }
+        binding.protectButton.setOnClickListener {
+            if (!ensureCanEdit()) return@setOnClickListener
+            memo?.let { saveImmediate(it.copy(isProtected = !it.isProtected)) }
+        }
     }
 
     private fun wireWatchers() {
@@ -280,6 +305,8 @@ class EditChecklistActivity : AppCompatActivity() {
         saveJob?.cancel()
         commitTitleNow()
         lifecycleScope.launch {
+            ensureMemoInserted()
+            if (memoId == 0L) return@launch
             val items = repo.getChecklistItems(memoId).sortedBy { it.sortOrder }
             if (items.isEmpty()) {
                 val newId = repo.insertChecklistItem(
@@ -288,6 +315,43 @@ class EditChecklistActivity : AppCompatActivity() {
                 adapter.requestFocusForItem(newId)
             } else {
                 adapter.requestFocusForItem(items.first().id)
+            }
+        }
+    }
+
+    private fun startObservingMemo() {
+        if (memoObserveJob?.isActive == true) return
+        memoObserveJob = lifecycleScope.launch {
+            repo.observeMemo(memoId).collect {
+                if (it == null) { finish(); return@collect }
+                memo = it; renderMemo(it)
+            }
+        }
+    }
+
+    private fun startObservingItems() {
+        if (itemsObserveJob?.isActive == true) return
+        itemsObserveJob = lifecycleScope.launch {
+            repo.observeChecklistItems(memoId).collect { items ->
+                currentItems = items
+                adapter.submit(items)
+                binding.emptyTapZone.visibility =
+                    if (items.isEmpty()) android.view.View.VISIBLE else android.view.View.GONE
+            }
+        }
+    }
+
+    /**
+     * memoId が 0 なら memo を実 DB へ insert し、observe を起動する。
+     * 既に insert 済みなら何もしない。saveMutex で直列化済み。
+     */
+    private suspend fun ensureMemoInserted() {
+        saveMutex.withLock {
+            if (memoId == 0L) {
+                val state = memo ?: return@withLock
+                memoId = repo.insertMemo(state)
+                startObservingMemo()
+                startObservingItems()
             }
         }
     }
@@ -347,6 +411,15 @@ class EditChecklistActivity : AppCompatActivity() {
             if (m.priority > 0) R.drawable.ic_star_filled else R.drawable.ic_star_outline,
         )
         binding.priorityButton.imageTintList = ColorStateList.valueOf(getColor(R.color.icon_priority))
+        // 保護ボタン: ロック開閉アイコンで状態表示。
+        binding.protectButton.setImageResource(
+            if (m.isProtected) R.drawable.ic_lock else R.drawable.ic_lock_open,
+        )
+        binding.protectButton.imageTintList =
+            ColorStateList.valueOf(getColor(R.color.icon_protect))
+        binding.protectButton.contentDescription = getString(
+            if (m.isProtected) R.string.action_unprotect else R.string.action_protect,
+        )
     }
 
     private fun commitTitleNow() {
@@ -359,7 +432,22 @@ class EditChecklistActivity : AppCompatActivity() {
 
     private fun saveImmediate(updated: Memo) {
         memo = updated
-        lifecycleScope.launch { repo.updateMemo(updated) }
+        // まだ insert されていない時点では Flow からの再描画が来ないので手動で render。
+        if (memoId == 0L) renderMemo(updated)
+        lifecycleScope.launch {
+            saveMutex.withLock {
+                val state = memo ?: return@withLock
+                if (memoId == 0L) {
+                    // タイトルが空のままなら DB に書かない (項目追加時は ensureMemoInserted 経由で別途 insert)。
+                    if (state.title.isNullOrBlank()) return@withLock
+                    memoId = repo.insertMemo(state)
+                    startObservingMemo()
+                    startObservingItems()
+                } else {
+                    repo.updateMemo(state)
+                }
+            }
+        }
     }
 
     private fun ensureCanEdit(): Boolean {
@@ -373,6 +461,24 @@ class EditChecklistActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        if (isFinishing && discardIfEmpty()) return
         commitTitleNow()
+    }
+
+    /**
+     * 新規作成された空のリストを破棄する。タイトル空 + 全項目テキスト空が条件。
+     * CASCADE で checklist_items も同時に消える。
+     */
+    private fun discardIfEmpty(): Boolean {
+        if (!isNewMemo) return false
+        val titleBlank = binding.titleEdit.text?.toString()?.isBlank() ?: true
+        if (!titleBlank) return false
+        if (currentItems.any { it.text.isNotBlank() }) return false
+        saveJob?.cancel()
+        val id = memoId
+        if (id != 0L) {
+            lifecycleScope.launch { repo.deletePermanently(id) }
+        }
+        return true
     }
 }

@@ -73,6 +73,12 @@ class MainActivity : AppCompatActivity() {
         settings = AppSettings.get(this)
         sortModeFlow = MutableStateFlow(settings.listSortMode)
 
+        // プライバシーロックが必要なら、最初のフレームから目隠しオーバーレイを出す。
+        // setContentView 直後に判定して Visibility を確定させることで「コンテンツが一瞬見える」を防ぐ。
+        if (settings.privacyLockEnabled && !PrivacyLockController.isUnlocked()) {
+            binding.lockOverlay.visibility = View.VISIBLE
+        }
+
         setupRecycler()
         setupToolbar()
         setupMultiSelectToolbar()
@@ -89,7 +95,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        PrivacyLockController.guard(this) { /* unlocked */ }
+        // 認証必要なら目隠しオーバーレイを出してから guard を呼ぶ
+        // (背後にメモ一覧が透けて見えないようにする)
+        if (settings.privacyLockEnabled && !PrivacyLockController.isUnlocked()) {
+            binding.lockOverlay.visibility = View.VISIBLE
+        }
+        PrivacyLockController.guard(this) {
+            binding.lockOverlay.visibility = View.GONE
+        }
+        // タグ先頭文字オプションは設定画面から戻ったときに反映
+        memoAdapter.setShowTagInitial(settings.showTagInitialOnCard)
     }
 
     private fun setupRecycler() {
@@ -183,7 +198,8 @@ class MainActivity : AppCompatActivity() {
         binding.msDeleteButton.setOnClickListener { bulkDelete() }
         binding.msTagButton.setOnClickListener { bulkChangeTag() }
         binding.msProtectButton.setOnClickListener { bulkToggleProtect() }
-        binding.msMoreButton.setOnClickListener { showMultiSelectMore(it) }
+        binding.msDuplicateButton.setOnClickListener { bulkDuplicate() }
+        binding.msSelectAllButton.setOnClickListener { selectAllVisible() }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -367,6 +383,7 @@ class MainActivity : AppCompatActivity() {
         selectedMemoIds.add(initialId)
         binding.toolbar.visibility = View.GONE
         binding.multiSelectToolbar.visibility = View.VISIBLE
+        binding.multiSelectFooter.visibility = View.VISIBLE
         binding.tagFilterScroll.visibility = View.GONE
         binding.fabContainer.visibility = View.GONE
         updateMultiSelectCount()
@@ -379,6 +396,7 @@ class MainActivity : AppCompatActivity() {
         selectedMemoIds.clear()
         binding.toolbar.visibility = View.VISIBLE
         binding.multiSelectToolbar.visibility = View.GONE
+        binding.multiSelectFooter.visibility = View.GONE
         binding.tagFilterScroll.visibility = View.VISIBLE
         binding.fabContainer.visibility = View.VISIBLE
         refreshList()
@@ -406,19 +424,6 @@ class MainActivity : AppCompatActivity() {
         binding.msProtectButton.setImageResource(
             if (allProtected) R.drawable.ic_lock else R.drawable.ic_lock_open,
         )
-    }
-
-    private fun showMultiSelectMore(anchor: View) {
-        PopupMenu(this, anchor).apply {
-            menuInflater.inflate(R.menu.multi_select_more, menu)
-            setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.action_select_all -> selectAllVisible()
-                    R.id.action_duplicate -> bulkDuplicate()
-                }
-                true
-            }
-        }.show()
     }
 
     private fun selectAllVisible() {

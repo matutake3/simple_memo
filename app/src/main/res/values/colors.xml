@@ -29,11 +29,13 @@
     <color name="accent_blue">#A8C5D6</color>
     <color name="accent_blue_dark">#90B1C4</color>
 
-    <!-- 編集画面ツールバーのマルチカラーアイコン用 -->
+    <!-- 編集画面フッターのマルチカラーアイコン用 -->
     <color name="icon_palette">#90B1C4</color>
     <color name="icon_priority">#D4A93C</color>
     <color name="icon_tag">#869978</color>
     <color name="icon_delete">#C8896E</color>
+    <color name="icon_share">#90B1C4</color>
+    <color name="icon_protect">#869978</color>
 
     <!-- 18 色パレット (メモ + タグ 共通 ID 空間) -->
     <color name="color_default">#F4EEE3</color>
