@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -27,7 +26,7 @@ import jp.simplist.memo.util.TimeFormat
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
-class TrashActivity : AppCompatActivity() {
+class TrashActivity : ThemedActivity() {
 
     private lateinit var binding: ActivitySimpleListBinding
     private lateinit var adapter: TrashAdapter

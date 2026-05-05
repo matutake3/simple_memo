@@ -7,7 +7,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import jp.simplist.memo.R
 import jp.simplist.memo.data.AppSettings
@@ -36,7 +35,7 @@ import kotlinx.coroutines.sync.withLock
  * - 入力は debounce 500ms で自動保存。戻る前にも明示保存。
  * - トライアル切れ後は編集を弾く (Toast → finish)。閲覧は許可だが入力欄を無効化。
  */
-class EditMemoActivity : AppCompatActivity() {
+class EditMemoActivity : ThemedActivity() {
 
     private lateinit var binding: ActivityEditMemoBinding
     private lateinit var repo: MemoRepository

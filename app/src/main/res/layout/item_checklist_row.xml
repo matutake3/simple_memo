@@ -31,7 +31,7 @@
         android:imeOptions="actionNext"
         android:inputType="text|textCapSentences"
         android:singleLine="true"
-        android:textColor="@color/ink"
+        android:textColor="?android:attr/textColorPrimary"
         android:textColorHint="@color/graphite"
         android:textSize="14sp" />
 

@@ -38,6 +38,10 @@ interface ChecklistDao {
     @Query("UPDATE checklist_items SET checked = :checked WHERE id = :id")
     suspend fun setChecked(id: Long, checked: Boolean)
 
+    /** 任意の項目 id から所属する memoId を引く (widget / 通知の refresh 用)。 */
+    @Query("SELECT memoId FROM checklist_items WHERE id = :id")
+    suspend fun getMemoIdFor(id: Long): Long?
+
     @Transaction
     suspend fun replaceForMemo(memoId: Long, items: List<ChecklistItem>) {
         deleteAllFor(memoId)

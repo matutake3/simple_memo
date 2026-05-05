@@ -8,7 +8,6 @@ import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,7 +42,7 @@ import kotlinx.coroutines.sync.withLock
  *   - 項目が空のまま Backspace → その項目を削除して 1 つ前 (なければ title) に focus
  *   - 「+ 項目を追加」ボタンは廃止 (Enter で十分なため)
  */
-class EditChecklistActivity : AppCompatActivity() {
+class EditChecklistActivity : ThemedActivity() {
 
     private lateinit var binding: ActivityEditChecklistBinding
     private lateinit var repo: MemoRepository

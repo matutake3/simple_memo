@@ -5,10 +5,10 @@ import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import jp.simplist.memo.data.MemoRepository
+import jp.simplist.memo.ui.ThemedActivity
 import jp.simplist.memo.data.MemoType
 import jp.simplist.memo.databinding.ActivityWidgetConfigBinding
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
  * テキストメモウィジェット配置時の設定 Activity。
  * 既存メモから 1 つ選んで widgetId と紐付け、ウィジェットを描画する。
  */
-class TextMemoConfigActivity : AppCompatActivity() {
+class TextMemoConfigActivity : ThemedActivity() {
 
     private lateinit var binding: ActivityWidgetConfigBinding
     private var widgetId: Int = AppWidgetManager.INVALID_APPWIDGET_ID

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/paper">
+    android:background="?android:attr/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
-            android:background="@color/paper">
+            android:background="?android:attr/colorBackground">
 
             <!-- 通常モードのツールバー -->
             <LinearLayout
@@ -34,7 +34,7 @@
                     android:layout_height="40dp"
                     android:src="@drawable/ic_menu"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/ink"
+                    app:tint="?android:attr/textColorPrimary"
                     android:contentDescription="@string/action_menu" />
 
                 <TextView
@@ -55,7 +55,7 @@
                     android:layout_height="40dp"
                     android:src="@drawable/ic_sort"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/ink"
+                    app:tint="?android:attr/textColorPrimary"
                     android:contentDescription="@string/action_sort" />
 
                 <TextView
@@ -77,7 +77,7 @@
                     android:layout_height="40dp"
                     android:src="@drawable/ic_search"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/ink"
+                    app:tint="?android:attr/textColorPrimary"
                     android:contentDescription="@string/action_search" />
 
                 <ImageButton
@@ -86,7 +86,7 @@
                     android:layout_height="40dp"
                     android:src="@drawable/ic_more_vert"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/ink"
+                    app:tint="?android:attr/textColorPrimary"
                     android:contentDescription="@string/action_more" />
             </LinearLayout>
 
@@ -108,7 +108,7 @@
                     android:layout_height="40dp"
                     android:src="@drawable/ic_close"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/ink"
+                    app:tint="?android:attr/textColorPrimary"
                     android:contentDescription="@string/action_close" />
 
                 <TextView
@@ -124,7 +124,7 @@
             </LinearLayout>
         </FrameLayout>
 
-        <View style="@style/HairLine" android:background="@color/hair_subtle" />
+        <View style="@style/HairLine" android:background="?attr/colorHair" />
 
         <!-- Tag filter row -->
         <HorizontalScrollView
@@ -134,7 +134,7 @@
             android:scrollbars="none"
             android:overScrollMode="never"
             android:fillViewport="false"
-            android:background="@color/paper">
+            android:background="?android:attr/colorBackground">
 
             <LinearLayout
                 android:id="@+id/tagFilterRow"
@@ -228,7 +228,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/ic_label_outline"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/icon_tag"
+                    app:tint="?attr/iconTintTag"
                     android:contentDescription="@string/action_tag" />
 
                 <ImageButton
@@ -238,7 +238,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/ic_lock_open"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/icon_protect"
+                    app:tint="?attr/iconTintProtect"
                     android:contentDescription="@string/action_protect" />
 
                 <ImageButton
@@ -268,7 +268,7 @@
                     android:layout_weight="1"
                     android:src="@drawable/ic_delete"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/icon_delete"
+                    app:tint="?attr/iconTintDelete"
                     android:contentDescription="@string/action_delete" />
             </LinearLayout>
         </LinearLayout>
@@ -289,7 +289,7 @@
             android:id="@+id/fabMemo"
             android:layout_width="@dimen/fab_size"
             android:layout_height="@dimen/fab_size"
-            android:background="@drawable/bg_fab_memo"
+            android:background="?attr/bgFabMemo"
             android:clickable="true"
             android:focusable="true"
             android:contentDescription="@string/fab_memo">
@@ -328,7 +328,7 @@
             android:id="@+id/fabList"
             android:layout_width="@dimen/fab_size"
             android:layout_height="@dimen/fab_size"
-            android:background="@drawable/bg_fab_list"
+            android:background="?attr/bgFabList"
             android:clickable="true"
             android:focusable="true"
             android:contentDescription="@string/fab_list">
@@ -370,7 +370,7 @@
         android:id="@+id/lockOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/paper"
+        android:background="?android:attr/colorBackground"
         android:clickable="true"
         android:focusable="true"
         android:visibility="gone"

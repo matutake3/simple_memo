@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/paper">
+    android:background="?android:attr/colorBackground">
 
     <!-- Toolbar: 戻るのみ。各種アクションはフッターに集約。 -->
     <LinearLayout
@@ -27,7 +27,7 @@
             android:contentDescription="@string/action_back" />
     </LinearLayout>
 
-    <View style="@style/HairLine" android:background="@color/hair_subtle" />
+    <View style="@style/HairLine" android:background="?attr/colorHair" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                     android:hint="@string/hint_title"
                     android:textSize="18sp"
                     android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/ink"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:textColorHint="@color/graphite"
                     android:background="@null"
                     android:singleLine="true"
@@ -76,7 +76,7 @@
                 android:hint="@string/hint_body"
                 android:textSize="16sp"
                 android:fontFamily="@font/inter_regular"
-                android:textColor="@color/ink"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textColorHint="@color/graphite"
                 android:background="@null"
                 android:gravity="top|start"
@@ -107,7 +107,7 @@
             android:layout_weight="1"
             android:src="@drawable/ic_palette"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/icon_palette"
+            app:tint="?attr/iconTintPalette"
             android:contentDescription="@string/action_color" />
 
         <ImageButton
@@ -117,7 +117,7 @@
             android:layout_weight="1"
             android:src="@drawable/ic_star_outline"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/icon_priority"
+            app:tint="?attr/iconTintPriority"
             android:contentDescription="@string/action_priority" />
 
         <ImageButton
@@ -127,7 +127,7 @@
             android:layout_weight="1"
             android:src="@drawable/ic_label_outline"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/icon_tag"
+            app:tint="?attr/iconTintTag"
             android:contentDescription="@string/action_tag" />
 
         <ImageButton
@@ -137,7 +137,7 @@
             android:layout_weight="1"
             android:src="@drawable/ic_share"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/icon_share"
+            app:tint="?attr/iconTintShare"
             android:contentDescription="@string/action_share" />
 
         <ImageButton
@@ -147,7 +147,7 @@
             android:layout_weight="1"
             android:src="@drawable/ic_lock_open"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/icon_protect"
+            app:tint="?attr/iconTintProtect"
             android:contentDescription="@string/action_protect" />
 
         <ImageButton
@@ -157,7 +157,7 @@
             android:layout_weight="1"
             android:src="@drawable/ic_delete"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/icon_delete"
+            app:tint="?attr/iconTintDelete"
             android:contentDescription="@string/action_delete" />
     </LinearLayout>
 </LinearLayout>

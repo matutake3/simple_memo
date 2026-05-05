@@ -41,27 +41,27 @@
     <style name="Text.H1" parent="">
         <item name="android:fontFamily">@font/inter_medium</item>
         <item name="android:textSize">22sp</item>
-        <item name="android:textColor">@color/ink</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
     <style name="Text.H2" parent="">
         <item name="android:fontFamily">@font/inter_medium</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/ink</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
     <style name="Text.Title.Card" parent="">
         <item name="android:fontFamily">@font/inter_medium</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/ink</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
     <style name="Text.Body.Large" parent="">
         <item name="android:fontFamily">@font/inter_regular</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/ink</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
     <style name="Text.Body" parent="">
         <item name="android:fontFamily">@font/inter_regular</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/ink</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:lineSpacingMultiplier">1.45</item>
     </style>
     <style name="Text.Body.Sub" parent="">

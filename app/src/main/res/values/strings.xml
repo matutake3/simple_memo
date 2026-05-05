@@ -124,6 +124,11 @@
     <string name="search_no_results">該当するメモがありません</string>
 
     <!-- Settings -->
+    <string name="settings_section_appearance">表示</string>
+    <string name="settings_style">スタイル</string>
+    <string name="settings_style_desc">アプリ全体の見た目を切り替えます</string>
+    <string name="style_standard">標準</string>
+    <string name="style_stylish">スタイリッシュ</string>
     <string name="settings_section_memo">メモの設定</string>
     <string name="settings_section_data">データ</string>
     <string name="settings_section_app_info">アプリ情報</string>

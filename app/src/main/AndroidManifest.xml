@@ -149,6 +149,16 @@
             </intent-filter>
         </receiver>
 
+        <!-- 端末再起動時にチェックリスト常駐通知を post し直す -->
+        <receiver
+            android:name=".notification.BootReceiver"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <!-- 設定 Activity: OS が直接起動するため exported=true 必須 -->
         <activity
             android:name=".widget.TextMemoConfigActivity"

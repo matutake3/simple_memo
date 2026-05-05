@@ -9,7 +9,7 @@
     android:layout_marginStart="@dimen/screen_padding_horizontal"
     android:layout_marginEnd="@dimen/screen_padding_horizontal"
     android:layout_marginTop="@dimen/card_gap"
-    android:background="@drawable/bg_memo_card"
+    android:background="?attr/bgMemoCard"
     android:backgroundTint="@color/color_default"
     android:padding="16dp"
     android:clickable="true"
@@ -21,7 +21,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_note"
-        app:tint="@color/ink"
+        app:tint="?android:attr/textColorPrimary"
         android:contentDescription="@null" />
 
     <LinearLayout

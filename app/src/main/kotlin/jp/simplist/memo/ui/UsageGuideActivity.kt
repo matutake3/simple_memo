@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import jp.simplist.memo.R
 import jp.simplist.memo.databinding.ActivityUsageGuideBinding
 
@@ -12,7 +11,7 @@ import jp.simplist.memo.databinding.ActivityUsageGuideBinding
  * 使い方ガイド (DESIGN_SPEC §7-K)。
  * 章ごとに H2 + 本文 を縦に並べる。AdBlock の流用パターン。
  */
-class UsageGuideActivity : AppCompatActivity() {
+class UsageGuideActivity : ThemedActivity() {
 
     private lateinit var binding: ActivityUsageGuideBinding
 

@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -20,7 +19,7 @@ import jp.simplist.memo.databinding.ItemTagRowBinding
 import jp.simplist.memo.util.MemoColorUtils
 import kotlinx.coroutines.launch
 
-class TagManagerActivity : AppCompatActivity() {
+class TagManagerActivity : ThemedActivity() {
 
     private lateinit var binding: ActivitySimpleListBinding
     private lateinit var adapter: TagAdapter

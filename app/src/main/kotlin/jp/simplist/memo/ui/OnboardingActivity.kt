@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import jp.simplist.memo.R
 import jp.simplist.memo.data.AppSettings
@@ -17,7 +16,7 @@ import jp.simplist.memo.databinding.ActivityOnboardingBinding
  * - 通知権限 (Android 13+)
  * - 「始める」ボタンで完了フラグを保存して finish。
  */
-class OnboardingActivity : AppCompatActivity() {
+class OnboardingActivity : ThemedActivity() {
 
     private lateinit var binding: ActivityOnboardingBinding
 

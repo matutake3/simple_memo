@@ -74,7 +74,7 @@ class ChecklistWidgetProvider : AppWidgetProvider() {
                 views.setViewVisibility(R.id.widgetEmpty, View.VISIBLE)
                 views.setInt(
                     R.id.widgetRoot, "setBackgroundResource",
-                    WidgetUpdater.cardBackgroundDrawable(0),
+                    WidgetUpdater.cardBackgroundDrawable(context, 0),
                 )
                 val pi = WidgetUpdater.configActivityPendingIntent(
                     context, widgetId, ChecklistConfigActivity::class.java,
@@ -84,14 +84,20 @@ class ChecklistWidgetProvider : AppWidgetProvider() {
             }
             views.setViewVisibility(R.id.widgetContent, View.VISIBLE)
             views.setViewVisibility(R.id.widgetEmpty, View.GONE)
+            // widgetRoot 本体の outline も切替 (Android 12+ ウィジェットホストは widgetRoot の
+            // outline で clip するため、ここを更新しないとスタイリッシュでも角丸が残る)。
+            views.setInt(
+                R.id.widgetRoot, "setBackgroundResource",
+                WidgetUpdater.cardBackgroundDrawable(context, memo.color),
+            )
             // 2 段背景: ヘッダー (フルカラー) + ボディ (淡色)
             views.setInt(
                 R.id.widgetHeader, "setBackgroundResource",
-                WidgetUpdater.headerBackgroundDrawable(memo.color),
+                WidgetUpdater.headerBackgroundDrawable(context, memo.color),
             )
             views.setInt(
                 R.id.widgetBody, "setBackgroundResource",
-                WidgetUpdater.bodyBackgroundDrawable(memo.color),
+                WidgetUpdater.bodyBackgroundDrawable(context, memo.color),
             )
             // タイトル
             val title = memo.title?.takeIf { it.isNotBlank() } ?: "(無題のリスト)"

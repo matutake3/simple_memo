@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.annotation.DrawableRes
 import jp.simplist.memo.R
+import jp.simplist.memo.data.AppSettings
+import jp.simplist.memo.data.StyleMode
 
 /**
  * アプリ側からウィジェットの再描画をトリガーするヘルパー。
@@ -51,13 +53,19 @@ object WidgetUpdater {
         notifyMemoChanged(context, memoId)
     }
 
+    private fun isStylish(context: Context): Boolean =
+        AppSettings.get(context).styleMode == StyleMode.STYLISH
+
     /**
-     * カラー ID (0..18) → ウィジェット背景 drawable resource を返す。
-     * RemoteViews.setInt(R.id.widgetRoot, "setBackgroundResource", N) で使う。
-     * 主にメモ削除時のフラット背景用 (ヘッダー/ボディ分離前のフォールバック)。
+     * カラー ID (0..18) → ウィジェット背景 drawable resource。
+     * スタイリッシュ時は同色 + 角丸 0dp の variant を返す。
      */
     @DrawableRes
-    fun cardBackgroundDrawable(colorId: Int): Int = when (colorId) {
+    fun cardBackgroundDrawable(context: Context, colorId: Int): Int =
+        if (isStylish(context)) cardStylish(colorId) else cardStandard(colorId)
+
+    @DrawableRes
+    private fun cardStandard(colorId: Int): Int = when (colorId) {
         1 -> R.drawable.bg_widget_card_1
         2 -> R.drawable.bg_widget_card_2
         3 -> R.drawable.bg_widget_card_3
@@ -79,11 +87,35 @@ object WidgetUpdater {
         else -> R.drawable.bg_widget_card_default
     }
 
-    /**
-     * カラー ID → ウィジェットヘッダー (上のみ角丸 + フルカラー) drawable。
-     */
     @DrawableRes
-    fun headerBackgroundDrawable(colorId: Int): Int = when (colorId) {
+    private fun cardStylish(colorId: Int): Int = when (colorId) {
+        1 -> R.drawable.bg_widget_card_1_stylish
+        2 -> R.drawable.bg_widget_card_2_stylish
+        3 -> R.drawable.bg_widget_card_3_stylish
+        4 -> R.drawable.bg_widget_card_4_stylish
+        5 -> R.drawable.bg_widget_card_5_stylish
+        6 -> R.drawable.bg_widget_card_6_stylish
+        7 -> R.drawable.bg_widget_card_7_stylish
+        8 -> R.drawable.bg_widget_card_8_stylish
+        9 -> R.drawable.bg_widget_card_9_stylish
+        10 -> R.drawable.bg_widget_card_10_stylish
+        11 -> R.drawable.bg_widget_card_11_stylish
+        12 -> R.drawable.bg_widget_card_12_stylish
+        13 -> R.drawable.bg_widget_card_13_stylish
+        14 -> R.drawable.bg_widget_card_14_stylish
+        15 -> R.drawable.bg_widget_card_15_stylish
+        16 -> R.drawable.bg_widget_card_16_stylish
+        17 -> R.drawable.bg_widget_card_17_stylish
+        18 -> R.drawable.bg_widget_card_18_stylish
+        else -> R.drawable.bg_widget_card_default_stylish
+    }
+
+    @DrawableRes
+    fun headerBackgroundDrawable(context: Context, colorId: Int): Int =
+        if (isStylish(context)) headerStylish(colorId) else headerStandard(colorId)
+
+    @DrawableRes
+    private fun headerStandard(colorId: Int): Int = when (colorId) {
         1 -> R.drawable.bg_widget_header_1
         2 -> R.drawable.bg_widget_header_2
         3 -> R.drawable.bg_widget_header_3
@@ -105,11 +137,35 @@ object WidgetUpdater {
         else -> R.drawable.bg_widget_header_default
     }
 
-    /**
-     * カラー ID → ウィジェットボディ (下のみ角丸 + 同系淡色) drawable。
-     */
     @DrawableRes
-    fun bodyBackgroundDrawable(colorId: Int): Int = when (colorId) {
+    private fun headerStylish(colorId: Int): Int = when (colorId) {
+        1 -> R.drawable.bg_widget_header_1_stylish
+        2 -> R.drawable.bg_widget_header_2_stylish
+        3 -> R.drawable.bg_widget_header_3_stylish
+        4 -> R.drawable.bg_widget_header_4_stylish
+        5 -> R.drawable.bg_widget_header_5_stylish
+        6 -> R.drawable.bg_widget_header_6_stylish
+        7 -> R.drawable.bg_widget_header_7_stylish
+        8 -> R.drawable.bg_widget_header_8_stylish
+        9 -> R.drawable.bg_widget_header_9_stylish
+        10 -> R.drawable.bg_widget_header_10_stylish
+        11 -> R.drawable.bg_widget_header_11_stylish
+        12 -> R.drawable.bg_widget_header_12_stylish
+        13 -> R.drawable.bg_widget_header_13_stylish
+        14 -> R.drawable.bg_widget_header_14_stylish
+        15 -> R.drawable.bg_widget_header_15_stylish
+        16 -> R.drawable.bg_widget_header_16_stylish
+        17 -> R.drawable.bg_widget_header_17_stylish
+        18 -> R.drawable.bg_widget_header_18_stylish
+        else -> R.drawable.bg_widget_header_default_stylish
+    }
+
+    @DrawableRes
+    fun bodyBackgroundDrawable(context: Context, colorId: Int): Int =
+        if (isStylish(context)) bodyStylish(colorId) else bodyStandard(colorId)
+
+    @DrawableRes
+    private fun bodyStandard(colorId: Int): Int = when (colorId) {
         1 -> R.drawable.bg_widget_body_1
         2 -> R.drawable.bg_widget_body_2
         3 -> R.drawable.bg_widget_body_3
@@ -130,6 +186,49 @@ object WidgetUpdater {
         18 -> R.drawable.bg_widget_body_18
         else -> R.drawable.bg_widget_body_default
     }
+
+    @DrawableRes
+    private fun bodyStylish(colorId: Int): Int = when (colorId) {
+        1 -> R.drawable.bg_widget_body_1_stylish
+        2 -> R.drawable.bg_widget_body_2_stylish
+        3 -> R.drawable.bg_widget_body_3_stylish
+        4 -> R.drawable.bg_widget_body_4_stylish
+        5 -> R.drawable.bg_widget_body_5_stylish
+        6 -> R.drawable.bg_widget_body_6_stylish
+        7 -> R.drawable.bg_widget_body_7_stylish
+        8 -> R.drawable.bg_widget_body_8_stylish
+        9 -> R.drawable.bg_widget_body_9_stylish
+        10 -> R.drawable.bg_widget_body_10_stylish
+        11 -> R.drawable.bg_widget_body_11_stylish
+        12 -> R.drawable.bg_widget_body_12_stylish
+        13 -> R.drawable.bg_widget_body_13_stylish
+        14 -> R.drawable.bg_widget_body_14_stylish
+        15 -> R.drawable.bg_widget_body_15_stylish
+        16 -> R.drawable.bg_widget_body_16_stylish
+        17 -> R.drawable.bg_widget_body_17_stylish
+        18 -> R.drawable.bg_widget_body_18_stylish
+        else -> R.drawable.bg_widget_body_default_stylish
+    }
+
+    /**
+     * すべての配置済みウィジェットを再描画する。スタイル切替時の一括反映用。
+     */
+    fun refreshAll(context: Context) {
+        val mgr = AppWidgetManager.getInstance(context)
+        val textIds = settings(context).allTextMemoMappings().keys.toIntArray()
+        if (textIds.isNotEmpty()) {
+            TextMemoWidgetProvider.updateAll(context, mgr, textIds)
+        }
+        val checklistIds = settings(context).allChecklistMappings().keys.toIntArray()
+        if (checklistIds.isNotEmpty()) {
+            ChecklistWidgetProvider.updateAll(context, mgr, checklistIds)
+            for (id in checklistIds) {
+                mgr.notifyAppWidgetViewDataChanged(id, R.id.checklistItems)
+            }
+        }
+    }
+
+    private fun settings(context: Context) = WidgetSettings.get(context)
 
     /** 設定 Activity を再起動する PendingIntent (削除済みメモタップ時など)。 */
     fun configActivityPendingIntent(

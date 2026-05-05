@@ -2,14 +2,13 @@ package jp.simplist.memo.ui
 
 import android.os.Bundle
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import jp.simplist.memo.R
 import jp.simplist.memo.databinding.ActivityFaqBinding
 
 /**
  * FAQ。AdBlock の sealed class スタイルを参考に、QA を縦並びでレンダ。
  */
-class FaqActivity : AppCompatActivity() {
+class FaqActivity : ThemedActivity() {
 
     private lateinit var binding: ActivityFaqBinding
 

@@ -4,6 +4,13 @@ import android.content.Context
 import android.content.SharedPreferences
 
 /**
+ * UI スタイル切替。標準 (クリーム + 角丸 + マルチカラー) と
+ * スタイリッシュ (白 + 直角 + モノトーン) の 2 種類。
+ * テーマ適用と onResume での自動 recreate は jp.simplist.memo.ui.ThemedActivity が担当。
+ */
+enum class StyleMode { STANDARD, STYLISH }
+
+/**
  * 軽量な app 設定。SharedPreferences ベース (DataStore ではない)。
  * 設定画面のスイッチ類を保存する。
  */
@@ -68,6 +75,15 @@ class AppSettings private constructor(context: Context) {
         get() = prefs.getBoolean(KEY_TAG_INITIAL, false)
         set(value) { prefs.edit().putBoolean(KEY_TAG_INITIAL, value).apply() }
 
+    /** UI スタイル: 標準 (クリーム+角丸) / スタイリッシュ (白+直角). */
+    var styleMode: StyleMode
+        get() = runCatching {
+            StyleMode.valueOf(
+                prefs.getString(KEY_STYLE_MODE, StyleMode.STANDARD.name) ?: StyleMode.STANDARD.name,
+            )
+        }.getOrDefault(StyleMode.STANDARD)
+        set(value) { prefs.edit().putString(KEY_STYLE_MODE, value.name).apply() }
+
     companion object {
         private const val NAME = "app_settings"
         private const val KEY_LIST_SORT_MODE = "list_sort_mode"
@@ -80,6 +96,7 @@ class AppSettings private constructor(context: Context) {
         private const val KEY_BACKUP_AUTO = "backup_auto_enabled"
         private const val KEY_BACKUP_LAST = "backup_last_at"
         private const val KEY_TAG_INITIAL = "tag_initial_on_card"
+        private const val KEY_STYLE_MODE = "style_mode"
 
         @Volatile private var INSTANCE: AppSettings? = null
 

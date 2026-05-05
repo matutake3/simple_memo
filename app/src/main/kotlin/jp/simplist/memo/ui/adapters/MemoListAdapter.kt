@@ -139,9 +139,24 @@ class MemoListAdapter(
             binding.typeIcon.setImageResource(
                 if (memo.type == MemoType.TEXT) R.drawable.ic_note else R.drawable.ic_check_square,
             )
-            binding.typeIcon.imageTintList = ColorStateList.valueOf(derived)
+            // 色なし (color=0) は HSL 計算が破綻するので、テーマで指定した固定色 (リスト FAB と同色) を使う。
+            // 色付きメモは従来通りカード色から派生した濃色。
+            val iconTint = if (memo.color == 0) {
+                val tv = android.util.TypedValue()
+                ctx.theme.resolveAttribute(R.attr.iconTintDefault, tv, true)
+                if (tv.resourceId != 0) ctx.getColor(tv.resourceId) else tv.data
+            } else {
+                derived
+            }
+            binding.typeIcon.imageTintList = ColorStateList.valueOf(iconTint)
             binding.mainText.text = primaryDisplayText(memo)
-            binding.mainText.setTextColor(ctx.getColor(R.color.ink))
+            // textColorPrimary はテーマ追従 (標準=ink、スタイリッシュ=ink_stylish)
+            val textColor = run {
+                val tv = android.util.TypedValue()
+                ctx.theme.resolveAttribute(android.R.attr.textColorPrimary, tv, true)
+                if (tv.resourceId != 0) ctx.getColor(tv.resourceId) else tv.data
+            }
+            binding.mainText.setTextColor(textColor)
             // タグ先頭文字ミニチップ
             if (showTagInitial && tag != null) {
                 val tagFirstChar = tag.name.firstOrNull()?.toString().orEmpty()
@@ -149,7 +164,12 @@ class MemoListAdapter(
                     binding.tagInitial.visibility = View.VISIBLE
                     binding.tagInitial.text = tagFirstChar
                     val tagColorInt = MemoColorUtils.resolve(ctx, tag.color)
-                    val paperColor = ctx.getColor(R.color.paper)
+                    // paper は theme attr 経由で取得 (スタイリッシュなら白、標準ならクリーム)
+                    val paperColor = run {
+                        val tv = android.util.TypedValue()
+                        ctx.theme.resolveAttribute(android.R.attr.colorBackground, tv, true)
+                        tv.data
+                    }
                     binding.tagInitial.backgroundTintList = ColorStateList.valueOf(
                         MemoColorUtils.blendForChipBackground(tagColorInt, paperColor),
                     )

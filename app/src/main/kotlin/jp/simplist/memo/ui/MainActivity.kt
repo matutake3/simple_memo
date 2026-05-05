@@ -8,7 +8,6 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -41,7 +40,7 @@ import kotlinx.coroutines.launch
  * Main screen — メモ一覧 + タグフィルタ + FAB ペア + 並び替えモード。
  * SPEC §4.1 / DESIGN_SPEC §7-A 参照。
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : ThemedActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var memoAdapter: MemoListAdapter

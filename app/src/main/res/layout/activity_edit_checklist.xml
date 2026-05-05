@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/paper">
+    android:background="?android:attr/colorBackground">
 
     <!-- Toolbar: 戻るのみ。各種アクションはフッターに集約。 -->
     <LinearLayout
@@ -21,7 +21,7 @@
             app:tint="@color/ink_secondary" android:contentDescription="@string/action_back" />
     </LinearLayout>
 
-    <View style="@style/HairLine" android:background="@color/hair_subtle" />
+    <View style="@style/HairLine" android:background="?attr/colorHair" />
 
     <FrameLayout
         android:id="@+id/titleBlock"
@@ -39,7 +39,7 @@
             android:hint="@string/hint_title"
             android:textSize="18sp"
             android:fontFamily="@font/inter_medium"
-            android:textColor="@color/ink"
+            android:textColor="?android:attr/textColorPrimary"
             android:textColorHint="@color/graphite"
             android:background="@null"
             android:singleLine="true"
@@ -116,32 +116,32 @@
 
         <ImageButton android:id="@+id/colorButton" android:layout_width="0dp" android:layout_height="44dp"
             android:layout_weight="1" android:src="@drawable/ic_palette"
-            android:background="?attr/selectableItemBackgroundBorderless" app:tint="@color/icon_palette"
+            android:background="?attr/selectableItemBackgroundBorderless" app:tint="?attr/iconTintPalette"
             android:contentDescription="@string/action_color" />
 
         <ImageButton android:id="@+id/priorityButton" android:layout_width="0dp" android:layout_height="44dp"
             android:layout_weight="1" android:src="@drawable/ic_star_outline"
-            android:background="?attr/selectableItemBackgroundBorderless" app:tint="@color/icon_priority"
+            android:background="?attr/selectableItemBackgroundBorderless" app:tint="?attr/iconTintPriority"
             android:contentDescription="@string/action_priority" />
 
         <ImageButton android:id="@+id/tagButton" android:layout_width="0dp" android:layout_height="44dp"
             android:layout_weight="1" android:src="@drawable/ic_label_outline"
-            android:background="?attr/selectableItemBackgroundBorderless" app:tint="@color/icon_tag"
+            android:background="?attr/selectableItemBackgroundBorderless" app:tint="?attr/iconTintTag"
             android:contentDescription="@string/action_tag" />
 
         <ImageButton android:id="@+id/shareButton" android:layout_width="0dp" android:layout_height="44dp"
             android:layout_weight="1" android:src="@drawable/ic_share"
-            android:background="?attr/selectableItemBackgroundBorderless" app:tint="@color/icon_share"
+            android:background="?attr/selectableItemBackgroundBorderless" app:tint="?attr/iconTintShare"
             android:contentDescription="@string/action_share" />
 
         <ImageButton android:id="@+id/protectButton" android:layout_width="0dp" android:layout_height="44dp"
             android:layout_weight="1" android:src="@drawable/ic_lock_open"
-            android:background="?attr/selectableItemBackgroundBorderless" app:tint="@color/icon_protect"
+            android:background="?attr/selectableItemBackgroundBorderless" app:tint="?attr/iconTintProtect"
             android:contentDescription="@string/action_protect" />
 
         <ImageButton android:id="@+id/deleteButton" android:layout_width="0dp" android:layout_height="44dp"
             android:layout_weight="1" android:src="@drawable/ic_delete"
-            android:background="?attr/selectableItemBackgroundBorderless" app:tint="@color/icon_delete"
+            android:background="?attr/selectableItemBackgroundBorderless" app:tint="?attr/iconTintDelete"
             android:contentDescription="@string/action_delete" />
     </LinearLayout>
 </LinearLayout>

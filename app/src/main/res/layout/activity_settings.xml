@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/paper">
+    android:background="?android:attr/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,12 +16,12 @@
         android:paddingEnd="@dimen/toolbar_padding_h">
         <ImageButton android:id="@+id/backButton" android:layout_width="40dp" android:layout_height="40dp"
             android:src="@drawable/ic_arrow_back" android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/ink" android:contentDescription="@string/action_back" />
+            app:tint="?android:attr/textColorPrimary" android:contentDescription="@string/action_back" />
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:layout_marginStart="8dp" android:text="@string/title_settings" style="@style/Text.H1" />
     </LinearLayout>
 
-    <View style="@style/HairLine" android:background="@color/hair_subtle" />
+    <View style="@style/HairLine" android:background="?attr/colorHair" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -47,6 +47,50 @@
                 <TextView style="@style/Text.Body.Large" android:text="@string/settings_faq"
                     android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content" />
                 <ImageView style="@style/SettingsChevron" />
+            </LinearLayout>
+
+            <!-- Section: 表示 -->
+            <TextView style="@style/SectionHeaderInline" android:text="@string/settings_section_appearance" />
+
+            <!-- Row: スタイル (標準 / スタイリッシュ ラジオ横並び) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/screen_padding_horizontal"
+                android:paddingEnd="@dimen/screen_padding_horizontal"
+                android:paddingTop="@dimen/row_padding_vertical"
+                android:paddingBottom="@dimen/row_padding_vertical">
+
+                <TextView style="@style/Text.Body.Large" android:text="@string/settings_style"
+                    android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+                <TextView style="@style/Text.Caption" android:text="@string/settings_style_desc"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" />
+
+                <RadioGroup
+                    android:id="@+id/styleRadioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/styleRadioStandard"
+                        style="@style/SimpleMemo.MaterialRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/style_standard"
+                        android:layout_marginEnd="20dp" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/styleRadioStylish"
+                        style="@style/SimpleMemo.MaterialRadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/style_stylish" />
+                </RadioGroup>
             </LinearLayout>
 
             <!-- Section: メモの設定 -->
@@ -205,7 +249,7 @@
                 android:layout_marginBottom="8dp"
                 android:orientation="vertical"
                 android:padding="20dp"
-                android:background="@drawable/bg_card_surface">
+                android:background="?attr/bgCardSurface">
 
                 <TextView android:id="@+id/purchaseTitle" style="@style/Text.H2"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -224,7 +268,7 @@
                     android:text="@string/trial_purchase_button"
                     style="@style/Text.Button"
                     android:textColor="@color/accent_sage_text"
-                    android:background="@drawable/bg_button_primary" />
+                    android:background="?attr/bgButtonPrimary" />
             </LinearLayout>
 
             <LinearLayout style="@style/SettingsRowInline" android:id="@+id/rowRestorePurchase">

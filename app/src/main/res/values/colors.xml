@@ -29,6 +29,11 @@
     <color name="accent_blue">#A8C5D6</color>
     <color name="accent_blue_dark">#90B1C4</color>
 
+    <!-- スタイリッシュテーマ用ベース色 (白地 + 中間グレー divider + 黒に近いブルー文字) -->
+    <color name="paper_stylish">#FFFFFF</color>
+    <color name="hair_stylish">#DDDDDD</color>
+    <color name="ink_stylish">#3C3F41 </color>
+
     <!-- 編集画面フッターのマルチカラーアイコン用 -->
     <color name="icon_palette">#90B1C4</color>
     <color name="icon_priority">#D4A93C</color>
@@ -57,6 +62,27 @@
     <color name="color_beige">#E5D9C2</color>
     <color name="color_greige">#D5CCC0</color>
     <color name="color_dust_yellow">#E0C788</color>
+
+    <!-- スタイリッシュ用 18 色パレット: 彩度 -65% + 明度 +5% (ノートインデックスタブ風) -->
+    <color name="color_default_stylish">#FFFFFF</color>
+    <color name="color_cream_stylish">#E8E5D9</color>
+    <color name="color_apricot_stylish">#DFD6CB</color>
+    <color name="color_peach_stylish">#E4D9D0</color>
+    <color name="color_coral_stylish">#E4D4D0</color>
+    <color name="color_rose_stylish">#E1D4D8</color>
+    <color name="color_pink_stylish">#F1EAE9</color>
+    <color name="color_mauve_stylish">#C9C0C8</color>
+    <color name="color_lavender_stylish">#E1DEE4</color>
+    <color name="color_lilac_stylish">#D4CFD7</color>
+    <color name="color_dusty_blue_stylish">#C1C6CB</color>
+    <color name="color_sky_stylish">#D9E0E4</color>
+    <color name="color_aqua_stylish">#CED6D5</color>
+    <color name="color_mint_stylish">#DCE1DC</color>
+    <color name="color_sage_swatch_stylish">#CFD3CB</color>
+    <color name="color_olive_stylish">#C1C1B5</color>
+    <color name="color_beige_stylish">#E4E1DB</color>
+    <color name="color_greige_stylish">#DAD7D4</color>
+    <color name="color_dust_yellow_stylish">#CDC6B3</color>
 
     <!-- State overlays (黒 alpha、ライト地対応) -->
     <color name="state_pressed_overlay">#0F000000</color>

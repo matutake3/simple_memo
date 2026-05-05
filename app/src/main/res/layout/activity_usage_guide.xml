@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/paper">
+    android:background="?android:attr/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,12 +15,12 @@
         android:paddingEnd="@dimen/toolbar_padding_h">
         <ImageButton android:id="@+id/backButton" android:layout_width="40dp" android:layout_height="40dp"
             android:src="@drawable/ic_arrow_back" android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/ink" android:contentDescription="@string/action_back" />
+            app:tint="?android:attr/textColorPrimary" android:contentDescription="@string/action_back" />
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:layout_marginStart="8dp" android:text="@string/title_usage_guide" style="@style/Text.H1" />
     </LinearLayout>
 
-    <View style="@style/HairLine" android:background="@color/hair_subtle" />
+    <View style="@style/HairLine" android:background="?attr/colorHair" />
 
     <ScrollView
         android:layout_width="match_parent"

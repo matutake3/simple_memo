@@ -25,7 +25,7 @@
         android:layout_height="20dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_check"
-        app:tint="@color/ink"
+        app:tint="?android:attr/textColorPrimary"
         android:visibility="gone"
         android:contentDescription="@null" />
 </FrameLayout>

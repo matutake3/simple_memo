@@ -27,6 +27,63 @@
         <item name="colorControlNormal">@color/ink_secondary</item>
         <item name="colorOnSurface">@color/ink</item>
         <item name="colorSurface">@color/surface</item>
+        <item name="colorHair">@color/hair_subtle</item>
+        <!-- 標準: 角丸あり / マルチカラーアイコン -->
+        <item name="bgMemoCard">@drawable/bg_memo_card</item>
+        <item name="bgCardSurface">@drawable/bg_card_surface</item>
+        <item name="bgButtonPrimary">@drawable/bg_button_primary</item>
+        <item name="bgFabMemo">@drawable/bg_fab_memo</item>
+        <item name="bgFabList">@drawable/bg_fab_list</item>
+        <item name="bgChipFilterSelected">@drawable/bg_chip_filter_selected</item>
+        <item name="bgChipFilterUnselected">@drawable/bg_chip_filter_unselected</item>
+        <item name="bgChipTag">@drawable/bg_chip_tag</item>
+        <item name="bgTagInitial">@drawable/bg_tag_initial</item>
+        <item name="bgDialogSurface">@drawable/bg_dialog_surface</item>
+        <item name="bgSearchField">@drawable/bg_search_field</item>
+        <item name="iconTintPalette">@color/icon_palette</item>
+        <item name="iconTintPriority">@color/icon_priority</item>
+        <item name="iconTintTag">@color/icon_tag</item>
+        <item name="iconTintShare">@color/icon_share</item>
+        <item name="iconTintProtect">@color/icon_protect</item>
+        <item name="iconTintDelete">@color/icon_delete</item>
+        <!-- 色なしメモのタイプアイコン: リスト FAB と同色 (sage) -->
+        <item name="iconTintDefault">@color/accent_sage</item>
+    </style>
+
+    <!--
+      Stylish (無機質ノート風): 白地 + 直角 + モノトーンアイコン。
+    -->
+    <style name="Theme.SimpleMemo.Stylish" parent="Theme.SimpleMemo">
+        <item name="android:colorBackground">@color/paper_stylish</item>
+        <item name="android:windowBackground">@color/paper_stylish</item>
+        <item name="android:statusBarColor">@color/paper_stylish</item>
+        <item name="android:navigationBarColor">@color/paper_stylish</item>
+        <item name="colorSurface">@color/paper_stylish</item>
+        <item name="colorHair">@color/hair_stylish</item>
+        <!-- 文字色を「黒に近いブルー」に。textColorPrimary を経由する箇所は自動追従。 -->
+        <item name="android:textColorPrimary">@color/ink_stylish</item>
+        <item name="colorOnSurface">@color/ink_stylish</item>
+        <item name="colorControlNormal">@color/ink_secondary</item>
+        <!-- スタイリッシュ: 角丸 0dp / モノトーンアイコン (ink で統一) -->
+        <item name="bgMemoCard">@drawable/bg_memo_card_stylish</item>
+        <item name="bgCardSurface">@drawable/bg_card_surface_stylish</item>
+        <item name="bgButtonPrimary">@drawable/bg_button_primary_stylish</item>
+        <item name="bgFabMemo">@drawable/bg_fab_memo_stylish</item>
+        <item name="bgFabList">@drawable/bg_fab_list_stylish</item>
+        <item name="bgChipFilterSelected">@drawable/bg_chip_filter_selected_stylish</item>
+        <item name="bgChipFilterUnselected">@drawable/bg_chip_filter_unselected_stylish</item>
+        <item name="bgChipTag">@drawable/bg_chip_tag_stylish</item>
+        <item name="bgTagInitial">@drawable/bg_tag_initial_stylish</item>
+        <item name="bgDialogSurface">@drawable/bg_dialog_surface_stylish</item>
+        <item name="bgSearchField">@drawable/bg_search_field_stylish</item>
+        <item name="iconTintPalette">@color/ink_stylish</item>
+        <item name="iconTintPriority">@color/ink_stylish</item>
+        <item name="iconTintTag">@color/ink_stylish</item>
+        <item name="iconTintShare">@color/ink_stylish</item>
+        <item name="iconTintProtect">@color/ink_stylish</item>
+        <item name="iconTintDelete">@color/ink_stylish</item>
+        <!-- 色なしメモのタイプアイコン: スタイリッシュではリスト FAB (ink_secondary) と同色 -->
+        <item name="iconTintDefault">@color/ink_secondary</item>
     </style>
 
     <!--

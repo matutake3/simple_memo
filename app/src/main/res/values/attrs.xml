@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  シリーズ規約: テーマ間で値を切り替えたいリソースは theme attribute として宣言し、
+  各 Theme.SimpleMemo / Theme.SimpleMemo.Stylish が値を提供する。
+-->
+<resources>
+    <!-- HairLine 等の divider に使う色。標準=暖色グレー、スタイリッシュ=中間グレー。 -->
+    <attr name="colorHair" format="color" />
+
+    <!-- 角丸の有無で切替する drawable 群 (スタイリッシュ=角丸 0dp) -->
+    <attr name="bgMemoCard" format="reference" />
+    <attr name="bgCardSurface" format="reference" />
+    <attr name="bgButtonPrimary" format="reference" />
+    <attr name="bgFabMemo" format="reference" />
+    <attr name="bgFabList" format="reference" />
+    <attr name="bgChipFilterSelected" format="reference" />
+    <attr name="bgChipFilterUnselected" format="reference" />
+    <attr name="bgChipTag" format="reference" />
+    <attr name="bgTagInitial" format="reference" />
+    <attr name="bgDialogSurface" format="reference" />
+    <attr name="bgSearchField" format="reference" />
+
+    <!-- 色なし (memo.color=0) メモのタイプアイコン色。リスト FAB の背景色と揃える。 -->
+    <attr name="iconTintDefault" format="color" />
+
+    <!-- フッターアイコンのカラー (スタイリッシュ=ink で統一、標準=マルチカラー) -->
+    <attr name="iconTintPalette" format="color" />
+    <attr name="iconTintPriority" format="color" />
+    <attr name="iconTintTag" format="color" />
+    <attr name="iconTintShare" format="color" />
+    <attr name="iconTintProtect" format="color" />
+    <attr name="iconTintDelete" format="color" />
+</resources>

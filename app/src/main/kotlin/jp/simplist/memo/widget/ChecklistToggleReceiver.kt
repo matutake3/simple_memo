@@ -32,10 +32,8 @@ class ChecklistToggleReceiver : BroadcastReceiver() {
                 val repo = MemoRepository.get(context)
                 val items = repo.getChecklistItems(memoId)
                 val target = items.find { it.id == itemId } ?: return@launch
+                // setItemChecked の中でウィジェット / 通知への broadcast を行う。
                 repo.setItemChecked(itemId, !target.checked)
-                // ウィジェット即時反映 (DB の Flow 経路は MainActivity 用なので、
-                // ウィジェット用に明示的に notifyAppWidgetViewDataChanged を投げる)
-                WidgetUpdater.notifyMemoChanged(context, memoId)
             } finally {
                 pendingResult.finish()
             }

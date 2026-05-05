@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import jp.simplist.memo.R
+import jp.simplist.memo.ui.ThemedActivity
 import jp.simplist.memo.data.MemoRepository
 import jp.simplist.memo.data.MemoType
 import jp.simplist.memo.databinding.ActivitySearchBinding
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
  * - 入力 250ms debounce で検索発火 (IME コンポーズ対策、確定後の文字を主対象)。
  * - title / body / checklist item の text を部分一致 (大文字小文字区別なし)。
  */
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : ThemedActivity() {
 
     private lateinit var binding: ActivitySearchBinding
     private lateinit var adapter: SearchResultAdapter

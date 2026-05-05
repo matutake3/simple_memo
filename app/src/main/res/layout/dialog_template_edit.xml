@@ -16,7 +16,7 @@
             android:hint="@string/template_name_hint"
             android:textSize="16sp"
             android:fontFamily="@font/inter_regular"
-            android:textColor="@color/ink"
+            android:textColor="?android:attr/textColorPrimary"
             android:textColorHint="@color/graphite"
             android:singleLine="true" />
 
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_default_memo_type_memo"
-                android:textColor="@color/ink"
+                android:textColor="?android:attr/textColorPrimary"
                 android:checked="true" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/settings_default_memo_type_checklist"
-                android:textColor="@color/ink" />
+                android:textColor="?android:attr/textColorPrimary" />
         </RadioGroup>
 
         <EditText
@@ -54,7 +54,7 @@
             android:hint="@string/hint_title"
             android:textSize="14sp"
             android:fontFamily="@font/inter_regular"
-            android:textColor="@color/ink"
+            android:textColor="?android:attr/textColorPrimary"
             android:textColorHint="@color/graphite"
             android:singleLine="true" />
 
@@ -66,7 +66,7 @@
             android:hint="本文 / 項目（チェックリストは改行区切り）"
             android:textSize="14sp"
             android:fontFamily="@font/inter_regular"
-            android:textColor="@color/ink"
+            android:textColor="?android:attr/textColorPrimary"
             android:textColorHint="@color/graphite"
             android:gravity="top|start"
             android:minLines="4"

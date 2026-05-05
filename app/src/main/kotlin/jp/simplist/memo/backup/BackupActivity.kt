@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.lifecycleScope
 import jp.simplist.memo.R
+import jp.simplist.memo.ui.ThemedActivity
 import jp.simplist.memo.data.AppSettings
 import jp.simplist.memo.databinding.ActivityBackupBinding
 import jp.simplist.memo.trial.TrialManager
@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class BackupActivity : AppCompatActivity() {
+class BackupActivity : ThemedActivity() {
 
     private lateinit var binding: ActivityBackupBinding
     private lateinit var settings: AppSettings

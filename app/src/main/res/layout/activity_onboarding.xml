@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/paper">
+    android:background="?android:attr/colorBackground">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="24dp"
                 android:padding="16dp"
-                android:background="@drawable/bg_card_surface">
+                android:background="?attr/bgCardSurface">
                 <TextView style="@style/Text.Body.Large" android:text="@string/onboarding_widget_title"
                     android:layout_width="match_parent" android:layout_height="wrap_content" />
                 <TextView style="@style/Text.Body.Sub" android:text="@string/onboarding_widget_desc"
@@ -56,7 +56,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="12dp"
                 android:padding="16dp"
-                android:background="@drawable/bg_card_surface">
+                android:background="?attr/bgCardSurface">
                 <TextView style="@style/Text.Body.Large" android:text="@string/onboarding_notification_title"
                     android:layout_width="match_parent" android:layout_height="wrap_content" />
                 <TextView style="@style/Text.Body.Sub" android:text="@string/onboarding_notification_desc"
@@ -73,7 +73,7 @@
                     android:paddingEnd="20dp"
                     android:text="@string/onboarding_grant"
                     style="@style/Text.Button"
-                    android:textColor="@color/ink"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:background="@drawable/bg_button_outlined" />
             </LinearLayout>
         </LinearLayout>
@@ -88,5 +88,5 @@
         android:text="@string/onboarding_start"
         style="@style/Text.Button"
         android:textColor="@color/accent_sage_text"
-        android:background="@drawable/bg_button_primary" />
+        android:background="?attr/bgButtonPrimary" />
 </LinearLayout>
