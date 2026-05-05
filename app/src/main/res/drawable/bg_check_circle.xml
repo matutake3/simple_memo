@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 複数選択モードで「選択中」を示す円形バッジの背景。アクセントセージで塗りつぶし。 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="@color/accent_sage_dark" />
+</shape>

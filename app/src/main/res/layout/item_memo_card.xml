@@ -89,4 +89,33 @@
         android:visibility="gone"
         android:contentDescription="@null" />
 
+    <!--
+      複数選択モードで「選択中」を示すバッジ。typeIcon と同位置に重ねて表示する
+      (typeIcon を覆い隠す形)。視覚的に最も分かりやすい単独サインとして配置。
+    -->
+    <FrameLayout
+        android:id="@+id/selectionBadge"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        app:layout_constraintStart_toStartOf="@id/typeIcon"
+        app:layout_constraintTop_toTopOf="@id/typeIcon"
+        app:layout_constraintEnd_toEndOf="@id/typeIcon"
+        app:layout_constraintBottom_toBottomOf="@id/typeIcon"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_check_circle" />
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_check"
+            app:tint="@android:color/white"
+            android:contentDescription="@null" />
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

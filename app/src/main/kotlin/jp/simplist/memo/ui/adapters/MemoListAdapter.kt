@@ -69,11 +69,18 @@ class MemoListAdapter(
         }
     }
 
-    /** 複数選択モードの状態を更新。選択 id が変わったら再描画。 */
+    /**
+     * 複数選択モードの状態を更新。選択 id が変わったら再描画。
+     *
+     * 重要: 呼び出し側 (MainActivity) は MutableSet をそのまま渡してくる可能性がある。
+     * 同じインスタンスを mutate されると `selectedIds != this.selectedIds` が常に false に
+     * なり、2 件目以降の選択が画面に反映されないため、ここで toSet() で防御的コピーを取る。
+     */
     fun updateMultiSelect(active: Boolean, selectedIds: Set<Long>) {
-        val changed = active != multiSelectMode || selectedIds != this.selectedIds
+        val snapshot = selectedIds.toSet()
+        val changed = active != multiSelectMode || snapshot != this.selectedIds
         multiSelectMode = active
-        this.selectedIds = selectedIds
+        this.selectedIds = snapshot
         if (changed) notifyDataSetChanged()
     }
 
@@ -110,16 +117,24 @@ class MemoListAdapter(
             val derived = MemoColorUtils.darkenForOnSurface(cardColor)
 
             binding.root.backgroundTintList = ColorStateList.valueOf(cardColor)
-            // 複数選択中の見た目: 選択は ✓ アイコン、未選択はカード alpha を下げてフェード
-            val typeIconRes = if (memo.type == MemoType.TEXT) R.drawable.ic_note else R.drawable.ic_check_square
-            if (multiSelectMode && isSelected) {
-                binding.typeIcon.setImageResource(R.drawable.ic_check)
-                binding.root.alpha = 1f
-            } else {
-                binding.typeIcon.setImageResource(typeIconRes)
-                binding.root.alpha = if (multiSelectMode) 0.55f else 1f
-            }
+            // type アイコンは常に種別を反映 (チェック付き正方形 or テキストメモ)
+            binding.typeIcon.setImageResource(
+                if (memo.type == MemoType.TEXT) R.drawable.ic_note else R.drawable.ic_check_square,
+            )
             binding.typeIcon.imageTintList = ColorStateList.valueOf(derived)
+            // 複数選択モードの視覚表現:
+            //   選択中  → typeIcon を選択バッジ (sage 円 + 白チェック) で覆う + alpha 1.0
+            //   未選択  → バッジ非表示 + alpha 0.4 で大きくフェード
+            if (multiSelectMode && isSelected) {
+                binding.selectionBadge.visibility = View.VISIBLE
+                binding.root.alpha = 1f
+            } else if (multiSelectMode) {
+                binding.selectionBadge.visibility = View.GONE
+                binding.root.alpha = 0.4f
+            } else {
+                binding.selectionBadge.visibility = View.GONE
+                binding.root.alpha = 1f
+            }
             binding.mainText.text = primaryDisplayText(memo)
             binding.mainText.setTextColor(ctx.getColor(R.color.ink))
             // 保護中マーク
