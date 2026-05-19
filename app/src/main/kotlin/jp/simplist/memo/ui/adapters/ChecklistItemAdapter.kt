@@ -128,6 +128,9 @@ class ChecklistItemAdapter(
 
     fun findPosition(id: Long): Int = workingList.indexOfFirst { it.id == id }
 
+    /** 指定位置の項目を取り出す (swipe-to-delete の対象取得など)。 */
+    fun itemAt(pos: Int): ChecklistItem? = workingList.getOrNull(pos)
+
     /**
      * 指定 id の項目に EditText フォーカスを移す。VH がまだ描画されていない場合は
      * pendingFocusId として保存し、次回 onBindViewHolder で適用する。

@@ -56,7 +56,7 @@
                 android:textColor="@color/ink_secondary"
                 android:lineSpacingMultiplier="1.3"
                 android:ellipsize="end"
-                android:maxLines="6" />
+                android:maxLines="30" />
         </FrameLayout>
     </LinearLayout>
 

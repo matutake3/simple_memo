@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import jp.simplist.memo.R
 import jp.simplist.memo.data.ChecklistItem
 import jp.simplist.memo.data.Memo
@@ -57,6 +58,9 @@ class EditChecklistActivity : ThemedActivity() {
     private var isNewMemo: Boolean = false
     /** 最新の checklist items キャッシュ (Flow から更新)。discardIfEmpty で参照。 */
     private var currentItems: List<ChecklistItem> = emptyList()
+    /** 入力候補テキスト (頻度順)。Activity 起動時に 1 回ロード、以降キャッシュ。 */
+    private var allSuggestions: List<String> = emptyList()
+    private var suggestionsLoaded: Boolean = false
     /** 保存処理 (insert / update) を直列化して二重 insert を防ぐ。 */
     private val saveMutex = Mutex()
     /** observe を多重起動させないためのジョブ参照。 */
@@ -139,6 +143,15 @@ class EditChecklistActivity : ThemedActivity() {
                 imm?.showSoftInput(binding.titleEdit, InputMethodManager.SHOW_IMPLICIT)
             }
         }
+
+        // 入力候補をロード (memoId の有無に関わらず横断履歴から取得)。
+        // 多めにキャッシュしておくのは、blacklist や current items で除外しても
+        // 上位 10 件を確保するための headroom。
+        lifecycleScope.launch {
+            allSuggestions = repo.getFrequentChecklistTexts(50)
+            suggestionsLoaded = true
+            bindSuggestions()
+        }
     }
 
     private fun setupRecycler() {
@@ -159,7 +172,8 @@ class EditChecklistActivity : ThemedActivity() {
         binding.itemList.adapter = adapter
 
         val callback = object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0,
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
         ) {
             override fun isLongPressDragEnabled(): Boolean = false
 
@@ -172,7 +186,21 @@ class EditChecklistActivity : ThemedActivity() {
                 return true
             }
 
-            override fun onSwiped(vh: RecyclerView.ViewHolder, direction: Int) {}
+            override fun onSwiped(vh: RecyclerView.ViewHolder, direction: Int) {
+                val pos = vh.bindingAdapterPosition
+                if (pos == RecyclerView.NO_POSITION) return
+                val item = adapter.itemAt(pos) ?: return
+                lifecycleScope.launch { repo.deleteChecklistItem(item.id) }
+                // 誤スワイプ救済: 5 秒間「元に戻す」で復元可能
+                Snackbar.make(binding.root, "項目を削除しました", Snackbar.LENGTH_LONG)
+                    .setAction("元に戻す") {
+                        lifecycleScope.launch {
+                            // 同一 sortOrder で再 insert (id は新規採番)
+                            repo.insertChecklistItem(item.copy(id = 0L))
+                        }
+                    }
+                    .show()
+            }
 
             override fun onSelectedChanged(
                 vh: RecyclerView.ViewHolder?,
@@ -336,7 +364,92 @@ class EditChecklistActivity : ThemedActivity() {
                 adapter.submit(items)
                 binding.emptyTapZone.visibility =
                     if (items.isEmpty()) android.view.View.VISIBLE else android.view.View.GONE
+                bindSuggestions()
             }
+        }
+    }
+
+    /**
+     * 入力候補チップを描画。allSuggestions から、現在のリストに既に存在するテキスト + 除外リストを
+     * 弾いてチップ化する。候補なしなら container を非表示。
+     */
+    private fun bindSuggestions() {
+        val settings = jp.simplist.memo.data.AppSettings.get(this)
+        if (!suggestionsLoaded || !canEdit || !settings.suggestionEnabled) {
+            binding.suggestionContainer.visibility = android.view.View.GONE
+            return
+        }
+        val existing = currentItems.map { it.text }.toSet()
+        val blacklist = settings.suggestionBlacklist
+        val limit = settings.suggestionMaxCount
+        val candidates = allSuggestions.filter {
+            it.isNotBlank() && it !in existing && it !in blacklist
+        }.take(limit)
+        if (candidates.isEmpty()) {
+            binding.suggestionContainer.visibility = android.view.View.GONE
+            return
+        }
+        binding.suggestionContainer.visibility = android.view.View.VISIBLE
+        binding.suggestionRow.removeAllViews()
+
+        val ctx = this
+        val density = resources.displayMetrics.density
+        val padH = (12f * density).toInt()
+        val padV = (4f * density).toInt()
+        val height = (32f * density).toInt()
+
+        // 背景 (チップ) は theme attr 経由 (標準=ピル / スタイリッシュ=直角)
+        val tv = android.util.TypedValue()
+        theme.resolveAttribute(R.attr.bgChipFilterUnselected, tv, true)
+        val bgRes = tv.resourceId
+
+        for (text in candidates) {
+            val chip = android.widget.TextView(ctx).apply {
+                this.text = text
+                setTextColor(getColor(R.color.ink_secondary))
+                textSize = 13f
+                typeface = androidx.core.content.res.ResourcesCompat.getFont(ctx, R.font.inter_regular)
+                gravity = android.view.Gravity.CENTER
+                setPadding(padH, padV, padH, padV)
+                if (bgRes != 0) setBackgroundResource(bgRes)
+                isClickable = true
+                isFocusable = true
+                setOnClickListener { onSuggestionTapped(text) }
+                setOnLongClickListener { onSuggestionLongPressed(text); true }
+            }
+            // ChipGroup が chipSpacingHorizontal/Vertical で勝手に間隔を取るので margin 不要。
+            val params = android.view.ViewGroup.LayoutParams(
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                height,
+            )
+            binding.suggestionRow.addView(chip, params)
+        }
+    }
+
+    /** 候補チップ長押し: 確認ダイアログ → blacklist に追加 + 即時非表示。 */
+    private fun onSuggestionLongPressed(text: String) {
+        AlertDialog.Builder(this)
+            .setMessage("「$text」を入力候補から除外しますか？")
+            .setPositiveButton(R.string.action_ok) { _, _ ->
+                jp.simplist.memo.data.AppSettings.get(this).addToSuggestionBlacklist(text)
+                allSuggestions = allSuggestions - text
+                bindSuggestions()
+            }
+            .setNegativeButton(R.string.action_cancel, null)
+            .show()
+    }
+
+    /** 候補チップタップ時: 末尾に新規項目として追加してフォーカス。 */
+    private fun onSuggestionTapped(text: String) {
+        if (!ensureCanEdit()) return
+        lifecycleScope.launch {
+            ensureMemoInserted()
+            if (memoId == 0L) return@launch
+            val nextOrder = (currentItems.maxOfOrNull { it.sortOrder } ?: -1) + 1
+            val newId = repo.insertChecklistItem(
+                ChecklistItem(memoId = memoId, text = text, checked = false, sortOrder = nextOrder),
+            )
+            adapter.requestFocusForItem(newId)
         }
     }
 

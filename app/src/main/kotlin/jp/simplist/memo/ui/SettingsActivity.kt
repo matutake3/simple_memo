@@ -10,7 +10,6 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import jp.simplist.memo.BuildConfig
 import jp.simplist.memo.R
 import jp.simplist.memo.backup.BackupActivity
@@ -92,6 +91,32 @@ class SettingsActivity : ThemedActivity() {
         // タグマーク表示
         binding.switchTagInitial.isChecked = settings.showTagInitialOnCard
         binding.switchTagInitial.setOnCheckedChangeListener { _, c -> settings.showTagInitialOnCard = c }
+
+        // よく使う項目を表示 (Switch + 表示数 Radio)
+        binding.switchSuggestion.isChecked = settings.suggestionEnabled
+        binding.suggestionCountBlock.visibility =
+            if (settings.suggestionEnabled) View.VISIBLE else View.GONE
+        binding.switchSuggestion.setOnCheckedChangeListener { _, c ->
+            settings.suggestionEnabled = c
+            binding.suggestionCountBlock.visibility = if (c) View.VISIBLE else View.GONE
+        }
+        // ラジオの初期選択
+        binding.suggestionCountRadioGroup.check(
+            when (settings.suggestionMaxCount) {
+                5 -> R.id.suggestionCountRadio5
+                10 -> R.id.suggestionCountRadio10
+                12 -> R.id.suggestionCountRadio12
+                else -> R.id.suggestionCountRadio8
+            },
+        )
+        binding.suggestionCountRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            settings.suggestionMaxCount = when (checkedId) {
+                R.id.suggestionCountRadio5 -> 5
+                R.id.suggestionCountRadio10 -> 10
+                R.id.suggestionCountRadio12 -> 12
+                else -> 8
+            }
+        }
 
         // ウィジェット通知 (チェックリスト): ロック画面 / 通知シェードに常駐
         binding.switchWidgetNotif.isChecked = settings.widgetNotificationEnabled

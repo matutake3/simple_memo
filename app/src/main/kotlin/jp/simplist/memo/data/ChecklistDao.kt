@@ -42,6 +42,19 @@ interface ChecklistDao {
     @Query("SELECT memoId FROM checklist_items WHERE id = :id")
     suspend fun getMemoIdFor(id: Long): Long?
 
+    /**
+     * 全リスト横断で「よく使う項目テキスト」を頻度順 + 直近性タイブレークで返す。
+     * 入力候補チップ行で使う。空文字は除外。
+     */
+    @Query("""
+        SELECT text FROM checklist_items
+        WHERE text != ''
+        GROUP BY text
+        ORDER BY COUNT(*) DESC, MAX(id) DESC
+        LIMIT :limit
+    """)
+    suspend fun getFrequentTexts(limit: Int): List<String>
+
     @Transaction
     suspend fun replaceForMemo(memoId: Long, items: List<ChecklistItem>) {
         deleteAllFor(memoId)

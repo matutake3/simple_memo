@@ -83,6 +83,40 @@
         </FrameLayout>
     </FrameLayout>
 
+    <!-- 入力候補チップ行: 過去のチェックリスト全体で頻出した項目を表示。
+         タップで末尾追加 / 長押しで「候補から除外」リストへ追加。
+         ChipGroup は内部 FlowLayout で行末折り返しを自動処理。 -->
+    <LinearLayout
+        android:id="@+id/suggestionContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/suggestionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/screen_padding_horizontal"
+            android:paddingTop="6dp"
+            android:paddingBottom="2dp"
+            android:textSize="11sp"
+            android:textColor="@color/graphite"
+            android:fontFamily="@font/inter_regular"
+            android:text="よく使う項目" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/suggestionRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/screen_padding_horizontal"
+            android:paddingEnd="@dimen/screen_padding_horizontal"
+            android:paddingTop="2dp"
+            android:paddingBottom="6dp"
+            app:chipSpacingHorizontal="6dp"
+            app:chipSpacingVertical="4dp" />
+    </LinearLayout>
+
     <!-- 完了済みを削除 (チェックリスト固有)。HairLine の上に中央寄せで配置。 -->
     <TextView
         android:id="@+id/deleteCheckedButton"

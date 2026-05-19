@@ -77,6 +77,37 @@ class AppSettings private constructor(context: Context) {
         }.getOrDefault(StyleMode.STANDARD)
         set(value) { prefs.edit().putString(KEY_STYLE_MODE, value.name).apply() }
 
+    /** 入力候補チップ行を表示するか。 */
+    var suggestionEnabled: Boolean
+        get() = prefs.getBoolean(KEY_SUGGESTION_ENABLED, true)
+        set(value) { prefs.edit().putBoolean(KEY_SUGGESTION_ENABLED, value).apply() }
+
+    /** 入力候補に表示する最大件数 (5 / 8 / 10 / 12)。 */
+    var suggestionMaxCount: Int
+        get() = prefs.getInt(KEY_SUGGESTION_MAX, 8)
+        set(value) { prefs.edit().putInt(KEY_SUGGESTION_MAX, value).apply() }
+
+    /** 入力候補チップ行から除外する文字列セット (チップ長押しで追加)。 */
+    var suggestionBlacklist: Set<String>
+        get() = prefs.getStringSet(KEY_SUGGESTION_BLACKLIST, emptySet()) ?: emptySet()
+        set(value) { prefs.edit().putStringSet(KEY_SUGGESTION_BLACKLIST, value).apply() }
+
+    fun addToSuggestionBlacklist(text: String) {
+        suggestionBlacklist = suggestionBlacklist.toMutableSet().apply { add(text) }
+    }
+
+    /**
+     * 指定テキストが blacklist にあれば外す。
+     * Repository の item insert / update から呼び、ユーザーがその単語を再入力した場合に
+     * 自動で候補表示を復活させる (= 永久 block にしない)。
+     */
+    fun clearFromSuggestionBlacklist(text: String) {
+        if (text.isBlank()) return
+        val current = suggestionBlacklist
+        if (text !in current) return
+        suggestionBlacklist = current.toMutableSet().apply { remove(text) }
+    }
+
     companion object {
         private const val NAME = "app_settings"
         private const val KEY_LIST_SORT_MODE = "list_sort_mode"
@@ -89,6 +120,9 @@ class AppSettings private constructor(context: Context) {
         private const val KEY_BACKUP_LAST = "backup_last_at"
         private const val KEY_TAG_INITIAL = "tag_initial_on_card"
         private const val KEY_STYLE_MODE = "style_mode"
+        private const val KEY_SUGGESTION_BLACKLIST = "suggestion_blacklist"
+        private const val KEY_SUGGESTION_ENABLED = "suggestion_enabled"
+        private const val KEY_SUGGESTION_MAX = "suggestion_max"
 
         @Volatile private var INSTANCE: AppSettings? = null
 

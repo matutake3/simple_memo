@@ -31,6 +31,14 @@ class MemoRepository private constructor(context: Context) {
         ChecklistNotificationsManager.notifyMemoDeleted(appContext, memoId)
     }
 
+    /**
+     * 項目が新規入力 / 更新されたら、その text が入力候補 blacklist にあれば自動で外す。
+     * 「もう一度書いた = やっぱり使いたい」のシグナルとして、永久 block を回避する。
+     */
+    private fun unblacklistIfPresent(text: String) {
+        AppSettings.get(appContext).clearFromSuggestionBlacklist(text)
+    }
+
     fun observeActive(mode: ListSortMode): Flow<List<Memo>> = when (mode) {
         ListSortMode.UPDATED -> memoDao.observeByUpdated()
         ListSortMode.CREATED -> memoDao.observeByCreated()
@@ -48,6 +56,10 @@ class MemoRepository private constructor(context: Context) {
     suspend fun getAllActive(): List<Memo> = memoDao.getAllActive()
     suspend fun getChecklistItems(memoId: Long): List<ChecklistItem> =
         checklistDao.getForMemo(memoId)
+
+    /** 全リスト横断で頻度順の項目テキスト (入力候補用)。 */
+    suspend fun getFrequentChecklistTexts(limit: Int = 20): List<String> =
+        checklistDao.getFrequentTexts(limit)
 
     suspend fun insertMemo(memo: Memo): Long = memoDao.insert(memo)
     suspend fun updateMemo(memo: Memo) {
@@ -80,16 +92,19 @@ class MemoRepository private constructor(context: Context) {
 
     suspend fun insertChecklistItem(item: ChecklistItem): Long {
         val id = checklistDao.insert(item)
+        unblacklistIfPresent(item.text)
         broadcastChange(item.memoId)
         return id
     }
     suspend fun insertChecklistItems(items: List<ChecklistItem>): List<Long> {
         val ids = checklistDao.insertAll(items)
+        items.forEach { unblacklistIfPresent(it.text) }
         items.firstOrNull()?.let { broadcastChange(it.memoId) }
         return ids
     }
     suspend fun updateChecklistItem(item: ChecklistItem) {
         checklistDao.update(item)
+        unblacklistIfPresent(item.text)
         broadcastChange(item.memoId)
     }
     suspend fun deleteChecklistItem(id: Long) {
@@ -108,6 +123,7 @@ class MemoRepository private constructor(context: Context) {
     }
     suspend fun replaceChecklistItems(memoId: Long, items: List<ChecklistItem>) {
         checklistDao.replaceForMemo(memoId, items)
+        items.forEach { unblacklistIfPresent(it.text) }
         broadcastChange(memoId)
     }
     suspend fun applyChecklistOrder(orderedIds: List<Long>) {

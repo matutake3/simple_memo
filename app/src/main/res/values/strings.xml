@@ -143,6 +143,10 @@
     <!-- メモ種別ラベル (テンプレ編集ダイアログ等で使用) -->
     <string name="memo_type_text">メモ</string>
     <string name="memo_type_checklist">リスト</string>
+    <!-- 入力候補チップ行の設定 -->
+    <string name="settings_suggestion">よく使う項目を表示</string>
+    <string name="settings_suggestion_desc">リスト編集画面に過去頻出した項目をチップで表示</string>
+    <string name="settings_suggestion_count">表示数</string>
     <string name="settings_template_manager">テンプレート管理</string>
     <string name="settings_tag_manager">タグ管理</string>
     <string name="settings_privacy_lock">プライバシーロック</string>

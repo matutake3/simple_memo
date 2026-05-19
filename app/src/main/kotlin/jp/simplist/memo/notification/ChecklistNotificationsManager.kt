@@ -4,6 +4,7 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.view.View
 import android.widget.RemoteViews
@@ -143,6 +144,17 @@ object ChecklistNotificationsManager {
             .build()
     }
 
+    /**
+     * 通知 RemoteViews 内のチェックアイコン (ic_check_box / _filled) に適用する色。
+     * 元 drawable は fillColor=#FFFFFF なので、通知の白系背景だと完全に同化してしまう。
+     * 端末のダーク/ライトモードに応じて見えやすいグレーを選ぶ。
+     */
+    private fun checkboxTint(context: Context): Int {
+        val isNight = (context.resources.configuration.uiMode and
+            Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+        return if (isNight) 0xFFCCCCCC.toInt() else 0xFF555555.toInt()
+    }
+
     /** expanded view (BigContentView) 用の RemoteViews。各行タップで toggle。 */
     private fun buildBigContentView(
         context: Context,
@@ -152,6 +164,7 @@ object ChecklistNotificationsManager {
     ): RemoteViews {
         val rv = RemoteViews(context.packageName, R.layout.notification_checklist)
         rv.setTextViewText(R.id.notifTitle, title)
+        val tint = checkboxTint(context)
 
         val rowIds = intArrayOf(
             R.id.notifRow0, R.id.notifRow1, R.id.notifRow2, R.id.notifRow3,
@@ -175,6 +188,8 @@ object ChecklistNotificationsManager {
                     checkIds[i],
                     if (item.checked) R.drawable.ic_check_box_filled else R.drawable.ic_check_box,
                 )
+                // 通知背景に同化しないよう色を当てる (ライト=濃グレー、ダーク=淡グレー)
+                rv.setInt(checkIds[i], "setColorFilter", tint)
                 rv.setTextViewText(textIds[i], item.text)
                 // タップで反転
                 val toggleIntent = Intent(context, ChecklistToggleReceiver::class.java).apply {
