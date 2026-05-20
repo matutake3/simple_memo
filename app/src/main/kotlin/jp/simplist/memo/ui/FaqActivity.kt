@@ -18,6 +18,7 @@ class FaqActivity : ThemedActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFaqBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarsInsets()
         binding.backButton.setOnClickListener { finish() }
 
         val qas = listOf(

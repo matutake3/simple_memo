@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import jp.simplist.memo.R
 import jp.simplist.memo.ui.ThemedActivity
+import jp.simplist.memo.ui.applySystemBarsInsets
 import jp.simplist.memo.data.MemoRepository
 import jp.simplist.memo.data.MemoType
 import jp.simplist.memo.databinding.ActivitySearchBinding
@@ -35,6 +36,7 @@ class SearchActivity : ThemedActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarsInsets()
         repo = MemoRepository.get(this)
 
         adapter = SearchResultAdapter { hit ->

@@ -21,6 +21,7 @@ class UsageGuideActivity : ThemedActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUsageGuideBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarsInsets()
         binding.backButton.setOnClickListener { finish() }
 
         val chapters = listOf(

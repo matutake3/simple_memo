@@ -28,6 +28,7 @@ class TagManagerActivity : ThemedActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySimpleListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarsInsets()
 
         binding.toolbarTitle.setText(R.string.title_tag_manager)
         binding.backButton.setOnClickListener { finish() }

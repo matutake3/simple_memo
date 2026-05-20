@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import jp.simplist.memo.data.MemoRepository
 import jp.simplist.memo.ui.ThemedActivity
+import jp.simplist.memo.ui.applySystemBarsInsets
 import jp.simplist.memo.data.MemoType
 import jp.simplist.memo.databinding.ActivityWidgetConfigBinding
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +32,7 @@ class TextMemoConfigActivity : ThemedActivity() {
 
         binding = ActivityWidgetConfigBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarsInsets()
 
         widgetId = intent?.extras?.getInt(
             AppWidgetManager.EXTRA_APPWIDGET_ID,

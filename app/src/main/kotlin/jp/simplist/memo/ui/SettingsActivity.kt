@@ -54,6 +54,7 @@ class SettingsActivity : ThemedActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarsInsets()
 
         settings = AppSettings.get(this)
         billing = BillingManager(this) { renderPurchaseCard() }

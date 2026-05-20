@@ -66,6 +66,7 @@ class MainActivity : ThemedActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarsInsets()
 
         memoRepo = MemoRepository.get(this)
         tagRepo = TagRepository.get(this)

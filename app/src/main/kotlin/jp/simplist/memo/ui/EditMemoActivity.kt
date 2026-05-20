@@ -54,6 +54,7 @@ class EditMemoActivity : ThemedActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditMemoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarsInsets()
 
         repo = MemoRepository.get(this)
         canEdit = TrialManager.get().canEditMemos()

@@ -10,6 +10,7 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.lifecycleScope
 import jp.simplist.memo.R
 import jp.simplist.memo.ui.ThemedActivity
+import jp.simplist.memo.ui.applySystemBarsInsets
 import jp.simplist.memo.data.AppSettings
 import jp.simplist.memo.databinding.ActivityBackupBinding
 import jp.simplist.memo.trial.TrialManager
@@ -47,6 +48,7 @@ class BackupActivity : ThemedActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityBackupBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarsInsets()
         settings = AppSettings.get(this)
 
         binding.backButton.setOnClickListener { finish() }

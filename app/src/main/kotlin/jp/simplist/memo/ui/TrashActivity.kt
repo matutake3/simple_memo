@@ -36,6 +36,7 @@ class TrashActivity : ThemedActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySimpleListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarsInsets()
 
         repo = MemoRepository.get(this)
         binding.toolbarTitle.setText(R.string.title_trash)

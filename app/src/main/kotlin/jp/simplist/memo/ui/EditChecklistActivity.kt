@@ -71,6 +71,7 @@ class EditChecklistActivity : ThemedActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditChecklistBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.root.applySystemBarsInsets()
 
         repo = MemoRepository.get(this)
         canEdit = TrialManager.get().canEditMemos()
